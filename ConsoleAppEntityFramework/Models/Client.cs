@@ -9,8 +9,9 @@ namespace ConsoleAppEntityFramework.Models
     {
         public Client()
         {
-           // this.ClientDeliveryComments = new HashSet<DeliveryComment>();
-           // this.ClientRestaurantComments = new HashSet<RestoComment>();
+            // this.ClientDeliveryComments = new HashSet<DeliveryComment>();
+            // this.ClientRestaurantComments = new HashSet<RestoComment>();
+
         }
 
         // experimental
