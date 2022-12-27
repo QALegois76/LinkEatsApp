@@ -66,6 +66,43 @@ namespace ALEControlLibrary
             return output;
         }
 
+        public static SizeF GetBestFitSizeF(this SizeF container, SizeF item)
+        {
+            float ratioWH_img = (float)item.Width / (float)item.Height;
+            float ratioWH_ctrl = (float)container.Width / (float)container.Height;
+
+            SizeF size;
+
+            if (ratioWH_img >= 1)
+            // img Horizontal
+            {
+                if (ratioWH_ctrl >= ratioWH_img)
+                // limit by height
+                {
+                    size = new SizeF((float)container.Height * ratioWH_img, container.Height);
+                }
+                else
+                {
+                    size = new SizeF((float)container.Width, container.Width / ratioWH_img);
+                }
+            }
+            else
+            // img Vertical
+            {
+                if (ratioWH_ctrl <= ratioWH_img)
+                {
+                    size = new SizeF((float)container.Width, container.Width / ratioWH_img);
+                }
+                else
+                {
+                    size = new SizeF((float)container.Height * ratioWH_img, container.Height);
+                }
+            }
+            return size;
+        }
+
+        public static Size GetBestFitSize(this Size container, Size item) => GetBestFitSizeF(container,item).ToSize();
+
 
         public static float Clamp(this float value, float min, float max)
         {

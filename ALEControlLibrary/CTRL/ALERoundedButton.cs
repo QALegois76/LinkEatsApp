@@ -25,6 +25,8 @@ namespace ALEControlLibrary.CTRL
         private int _borderSize = 5;
         private int _borderSizeActiv = 10;
 
+        private float _pourcentBack = 1;
+
         protected ERoundedType _roundedType = ERoundedType.All;
         protected ERoundedTag _roundedTags =  ERoundedTag.None;
 
@@ -46,6 +48,7 @@ namespace ALEControlLibrary.CTRL
         public int BorderSize { get=> _borderSize; set { _borderSize = value; UpdateRegion(); } }
         public int BorderSizeActiv { get=> _borderSizeActiv; set { _borderSizeActiv = value; UpdateRegion(); } }
 
+        public float PourcentBack { get => _pourcentBack; set { _pourcentBack = value; Invalidate(); } }
 
         public ERoundedType RoundedType { get => _roundedType; set { _roundedType = value; UpdateRegion(); } }
         public ERoundedTag  RoundedTags { get => _roundedTags; set { _roundedTags = value; UpdateRegion(); } }
@@ -136,6 +139,18 @@ namespace ALEControlLibrary.CTRL
             // back
             pevent.Graphics.FillPath(_bBack, _isActivated ? _gpActivBorder : _gpBorder);
 
+            // image
+            if (BackgroundImage != null && BackgroundImageLayout == ImageLayout.Zoom)
+            {
+                Size size = Size.GetBestFitSize(BackgroundImage.Size);
+                Rectangle rImg = new Rectangle();
+                rImg.Size = size;
+                rImg.Offset((Width - rImg.Width) / 2, (Height - rImg.Height) / 2);
+                rImg = this.ReZoom(rImg, _pourcentBack).ToRectangle();
+                pevent.Graphics.DrawImage(BackgroundImage, rImg);
+            }
+
+
             // text 
             pevent.Graphics.Clip = _regionText;
             Size s = TextRenderer.MeasureText(this.Text, this.Font);
@@ -152,6 +167,7 @@ namespace ALEControlLibrary.CTRL
 
             Trace.WriteLine("_isActivated : "+_isActivated);
         }
+
 
 
         protected override void OnMouseEnter(EventArgs e)
