@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace ALEControlLibrary
@@ -247,6 +248,10 @@ namespace ALEControlLibrary
             return output;
         }
 
+        public static Size GetSize(this string str,Font font)
+        {
+            return TextRenderer.MeasureText(str, font);
+        }
 
 
         #endregion

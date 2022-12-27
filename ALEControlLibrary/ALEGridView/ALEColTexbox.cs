@@ -4,7 +4,6 @@
 
     public class ALEColTexbox : ALEColControl
     {
-        public string Text { get => _control.Text; set => _control.Text = value; }
 
         public ALEColTexbox(string idSetting, TextBox textBox) : base(idSetting,textBox)
         {

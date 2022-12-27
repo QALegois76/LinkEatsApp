@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,8 +11,6 @@ namespace ALEControlLibrary.CTRL
     public class ALEGridView : UserControl
     {
 
-        private const int rowHeight = 50;
-        private const int nbCol = 5;
         private const int GRAB_SIZE = 10;
         private const int MIN_SIZE_COL = 20;
         private const int GAP_ANTI_ALLIAS = 2;
@@ -27,6 +26,8 @@ namespace ALEControlLibrary.CTRL
         private int _cornerRadius = 15;
         private int _borderSize = 2;
         private int _lineSize = 1;
+        private int _colOffset = 0;
+        private int _rowOffset = 0;
 
         private ERoundedType _roundedType = ERoundedType.All;
         private ERoundedTag _roundedTag = ERoundedTag.None;
@@ -38,11 +39,9 @@ namespace ALEControlLibrary.CTRL
         private Pen _penGridLine;
         private Pen _penBorder;
 
-        //private TextBox[] _txts;
+        private readonly ALERowDefinition _rowDefinition;
+        private ALERowCollection _rowCollection;
 
-
-        //private List<int> _col = new List<int>();
-        //private List<int> _row = new List<int>();
 
         #endregion
 
@@ -53,16 +52,74 @@ namespace ALEControlLibrary.CTRL
         public ERoundedType RoundedType { get => _roundedType; set { _roundedType = value; RegenRegion(); Invalidate(); } }
         public ERoundedTag RoundedTag { get => _roundedTag; set { _roundedTag = value; RegenRegion(); Invalidate(); } }
 
+        public ALERowDefinition RowDefinition => _rowDefinition;
+        public ALERowCollection RowCollection 
+        {
+            get => _rowCollection; 
+            set 
+            {
+                _rowCollection.RowChanged -= RowCollection_RowChanged;
+                _rowCollection = value; 
+                _rowCollection.RowChanged += RowCollection_RowChanged;
+                ReBuildGridView(); 
+            } 
+        }
+
         #endregion
+
+
+
         // constructor
         public ALEGridView()
         {
+            _rowDefinition= new ALERowDefinition(this.Controls);
+            _rowDefinition.OnRebuild += RowDefinition_OnRebuild;
+            _rowCollection = new ALERowCollection(_rowDefinition);
+
+            _rowCollection.RowChanged += RowCollection_RowChanged;
+
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
 
+            ReBuildGridView();
+        }
+
+        private void RowCollection_RowChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    for (int iRow = 0; iRow < _rowCollection.Count; iRow++)
+                    {
+                        ALERow row = _rowCollection.GetRow(iRow);
+                        for (int iCol = 0; iCol < _rowDefinition.Count; iCol++)
+                        {
+                            Rectangle? rect = GetRect(iCol, iRow);
+                            if (!rect.HasValue)
+                                continue;
+                            ALEColControl ctrl = row.GetCol(iCol);
+                            ctrl.ControlSize= rect.Value.Size;
+                            Point loc = rect.Value.Location;
+                            loc.Offset((rect.Value.Width - ctrl.ControlSize.Width) / 2, (rect.Value.Height - ctrl.ControlSize.Height) / 2);
+                            ctrl.ControlLocation = loc;
+                            row.Invalidate();
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            Invalidate();
+        }
+
+        private void RowDefinition_OnRebuild(object? sender, EventArgs e) => ReBuildGridView();
+
+        public void ReBuildGridView()
+        {
             RegenBrushes();
             RegenRowCol();
             RegenRegion();
@@ -81,40 +138,19 @@ namespace ALEControlLibrary.CTRL
 
         private void RegenRowCol()
         {
-            _col.Clear();
-            _row.Clear();
-
-            int defualtGap = Width / (nbCol + 1);
-            for (int i = 1; i < nbCol + 1; i++)
+            int posCol = _borderSize + GAP_ANTI_ALLIAS;
+            foreach (ALEColDefinitionBase colDef in _rowDefinition.ColDefinitions)
             {
-                _col.Add(i * defualtGap);
+                colDef.Position =  posCol;
+                posCol += ConvertToThis(colDef.ColWidth, colDef.IsAbsolute);
             }
 
-            int nbRow = Height / (rowHeight);
-            nbRow++;
-            for (int i = 1; i < nbRow + 1; i++)
+            int nbRow = Height / _rowDefinition.Height;
+            nbRow += 4;
+            for (int iRow = 1; iRow <= nbRow; iRow++)
             {
-                _row.Add(i * rowHeight);
+                _rowDefinition.RowLinePos.Add(iRow * _rowDefinition.Height);
             }
-
-
-            SuspendLayout();
-            this.Controls.Clear();
-            _txts = new TextBox[ (_col.Count+1) * (_row.Count)];
-
-            for (int row = 0; row < _row.Count; row++)
-            {
-                for (int col = 0; col < _col.Count + 1; col++)
-                {
-                    int currentIndex = row * (_col.Count+1)+ col;
-                    TextBox textBox = CreateTextBox();
-                    textBox.Text = $" row{row} col{col}";
-                    _txts[currentIndex] = textBox;
-                }
-            }
-            UpdateControls();
-            this.Controls.AddRange(_txts);
-            ResumeLayout();
         }
 
         private void RegenRegion()
@@ -125,70 +161,6 @@ namespace ALEControlLibrary.CTRL
             Region = new Region(_gpRegion);
         }
 
-
-        private TextBox CreateTextBox()
-        {
-            TextBox textBox = new TextBox();
-            textBox.ForeColor = ALEToolsUtility.AyoLightGray;
-            textBox.BackColor = ALEToolsUtility.AyoBackGray1;
-            textBox.BorderStyle = BorderStyle.None;
-            textBox.Font = this.Font;
-            textBox.WordWrap = true;
-            return textBox;
-        }
-
-        private void UpdateControls()
-        {
-            if (_isUpdatingControls)
-                return;
-
-            _isUpdatingControls = true;
-            //SuspendLayout();
-            for (int row = 0; row < _row.Count ; row++)
-            {
-                for (int col = 0; col < _col.Count + 1; col++)
-                {
-                    int currentIndex = row * (_col.Count+1) + col;
-                    TextBox textBox = _txts[currentIndex];
-
-                    Rectangle rect = GetRect(col, row);
-
-                    textBox.Size = rect.Size;
-                    textBox.Location = new Point(rect.X,rect.Y + (rect.Height -textBox.Height)/2);
-
-                    //Point pt = new Point();
-
-                    ////int ptX = (row - 1 < 0) ? _lineSize : _col[row - 1];
-                    //pt.Y = _borderSize + (row+1)*(rowHeight);
-
-                    //if (col == 0)
-                    //{
-                    //    textBox.Width = _col[0]-_borderSize;
-                    //    pt.X = _borderSize;
-                    //}
-                    //else if (col == _col.Count)
-                    //{
-                    //    textBox.Width = Width - _col[_col.Count - 1]-_borderSize;
-                    //    pt.X = _col[col-1];
-                    //}
-                    //else
-                    //{
-                    //    textBox.Width = _col[col] - _col[col - 1];
-                    //    pt.X = _col[col - 1];
-                    //}
-
-                    //textBox.Width -=2* _lineSize;
-                    //pt.X += _lineSize;
-
-                    //textBox.Location = pt;
-                    ////int height = (row + 1);
-
-                }
-            }
-           // ResumeLayout();
-
-            _isUpdatingControls = false;
-        }
         #endregion
 
 
@@ -226,126 +198,150 @@ namespace ALEControlLibrary.CTRL
 
         private void DrawCols(Graphics g)
         {
-            Point pa = new Point(0, GAP_ANTI_ALLIAS + _borderSize);
-            Point pb = new Point(0, Height - GAP_ANTI_ALLIAS - _borderSize);
-            _col.ForEach(c =>
+            if (_rowDefinition.Count == 0)
+                return;
+
+            for (int i = 0; i < _rowDefinition.Count; i++)
             {
-                pa.X = c;
-                pb.X = c ;
-                g.DrawLine(_penGridLine, pa, pb);
-            });
+                ALEColDefinitionBase colDef = _rowDefinition.ColDefinitions[i];
+
+                Rectangle rect = new Rectangle();
+                rect.X = colDef.Position;
+                rect.Width = ConvertToThis(colDef.ColWidth, colDef.IsAbsolute);
+                rect.Y = _borderSize + GAP_ANTI_ALLIAS;
+                rect.Height = _rowDefinition.Height;
+
+                g.DrawRectangle(_penBorder, rect);
+                Size size = colDef.Title.GetSize(Font);
+                g.DrawString(colDef.Title, Font, _foreBrush, new PointF(rect.X + ((float)rect.Width-(float)size.Width)/2,rect.Y+ ((float)rect.Height-(float)size.Height)/2));
+            }
+            
         }
 
         private void DrawRows(Graphics g)
         {
-            Point pa = new Point(GAP_ANTI_ALLIAS + _borderSize, 0);
-            Point pb = new Point(Width-GAP_ANTI_ALLIAS-_borderSize, 0);
-            _row.ForEach(c =>
+            if (_rowCollection.Count == 0)
+                return;
+
+            for (int i = 0; i < _rowCollection.Count; i++)
             {
-                if (c > Height - GAP_ANTI_ALLIAS - _borderSize)
-                    return;
-                pa.Y = c;
-                pb.Y = c;
-                g.DrawLine(_penGridLine, pa, pb);
-            });
+                ALERow row = _rowCollection.GetRow(i);
+                if (row == null) continue;
+
+                Rectangle rect = new Rectangle();
+                rect.X = GAP_ANTI_ALLIAS + _borderSize;
+                rect.Width = Width - 2 * (_borderSize + GAP_ANTI_ALLIAS );
+                rect.Y = (row.Index+1) * _rowDefinition.Height + _borderSize + GAP_ANTI_ALLIAS;
+                rect.Height = _rowDefinition.Height;
+                GraphicsPath gpRow = ALEDrawingHelper.GenerateBorder(ERoundedType.All, _cornerRadius, rect, _lineSize);
+                g.DrawPath(_penGridLine, gpRow);
+            }
         }
         #endregion
 
-        public Rectangle GetRect(int col, int row )
+        public Rectangle GetRect(int iCol, int iRow )
         {
+            if (_rowDefinition.ColDefinitions.Length == 0)
+                return Rectangle.Empty;
+
+            if (_rowDefinition.RowLinePos.Count== 0)
+                return Rectangle.Empty;
+
+            if (iCol < 0 || iCol > _rowDefinition.ColDefinitions.Length)
+                return Rectangle.Empty;
+
+            if (iRow < 0 ||iCol > _rowDefinition.RowLinePos.Count)
+                return Rectangle.Empty;
+
             Rectangle rect = new Rectangle();
 
-            if (col == 0)
-            {
-                rect.X = 0 + GAP_ANTI_ALLIAS+ _borderSize;
-                rect.Width = _col[0]-GAP_ANTI_ALLIAS-_borderSize;
-            }
-            else if (col > _col.Count-1)
-            {
-                rect.X =_col[_col.Count - 1];
-                rect.Width = Width - _borderSize -rect.X;
-            }
-            else
-            {
-                rect.X =_col[col-1];
-                rect.Width = _col[col] - rect.X;
-            }
+            rect.X = _rowDefinition.ColDefinitions[iCol].Position;
+            rect.Width = ConvertToThis(_rowDefinition.ColDefinitions[iCol].ColWidth, _rowDefinition.ColDefinitions[iCol].IsAbsolute);
 
-            rect.Y = _row[row];
-            if (row >= _row.Count - 1)
-            {
-                rect.Height = Height - rect.Y;
-            }
-            else
-            {
-                rect.Height = _row[row+1] - rect.Y;
-            }
+            rect.Y = (iRow+1) * _rowDefinition.Height + _borderSize + GAP_ANTI_ALLIAS;
+            rect.Height = _rowDefinition.Height;
 
             rect.Inflate(-_lineSize, -_lineSize);
 
             return rect;
         }
 
-        private void CheckColIndex(MouseEventArgs e)
+        private int ConvertToThis(float value,bool isAbsolute)
         {
-            for (int i = 0; i < _col.Count; i++)
-            {
-                int lineValue = _col[i];
-                if (e.Location.X >= lineValue - (GRAB_SIZE / 2) && e.Location.X <= lineValue + (GRAB_SIZE / 2))
-                {
-                    _indexLinColSelected = i;
-                    Cursor = Cursors.VSplit;
-                    return;
-                }
-            }
-            Cursor = Cursors.Default;
-            _indexLinColSelected = -1;
+            if (isAbsolute)
+                return (int)value;
+            else
+                return (int)((value / 100f) * (float) Width);
         }
 
-        private void MoveColIndex()
-        {
-            if (_indexLinColSelected >= 0 && _indexLinColSelected < _col.Count && _isMovingLine)
-            {
-                if (_isUpdatingControls)
-                    return;
 
-                int value = this.PointToClient(Cursor.Position).X;
-
-                if (_indexLinColSelected == 0)
-                {
-                    value = value.Clamp(MIN_SIZE_COL, _col[_indexLinColSelected + 1] - MIN_SIZE_COL);
-                }
-                else if (_indexLinColSelected == _col.Count - 1)
-                {
-                    value = value.Clamp(_col[_indexLinColSelected - 1] + MIN_SIZE_COL, Width - MIN_SIZE_COL);
-                }
-                else
-                {
-                    value = value.Clamp(_col[_indexLinColSelected - 1] + MIN_SIZE_COL, Width - MIN_SIZE_COL);
-                }
+        //private void CheckColIndex(MouseEventArgs e)
+        //{
+        //    for (int i = 0; i < _rowDefinition.ColLinePos.Count; i++)
+        //    {
 
 
-                _col[_indexLinColSelected] = value;
+        //        if (e.Location.X >= _rowDefinition.ColLinePos[i] - (GRAB_SIZE / 2) && e.Location.X <= _rowDefinition.ColLinePos[i] + (GRAB_SIZE / 2))
+        //        {
+        //            _indexLinColSelected = i;
+        //            Cursor = Cursors.VSplit;
+        //            return;
+        //        }
+        //    }
+        //    Cursor = Cursors.Default;
+        //    _indexLinColSelected = -1;
+        //}
 
-                for (int row = 0; row < _row.Count - 1; row++)
-                {
-                    Rectangle a = GetRect(_indexLinColSelected, row);
-                    Rectangle b = GetRect(_indexLinColSelected + 1, row);
+        //private void MoveColIndex()
+        //{
+        //    if (_indexLinColSelected >= 0 && _indexLinColSelected < _rowDefinition.Count && _isMovingLine)
+        //    {
+        //        if (_isUpdatingControls)
+        //            return;
 
-                    TextBox tba = _txts[row *( _col.Count+1) + _indexLinColSelected];
-                    TextBox tbb = _txts[row *( _col.Count+1) + _indexLinColSelected + 1];
+        //        int value = this.PointToClient(Cursor.Position).X;
 
-                    tba.Size = a.Size;
-                    tba.Location = new Point(a.X, a.Y + (a.Height - tba.Height) / 2);
+        //        if (_indexLinColSelected == 0)
+        //        {
+        //            value = value.Clamp(MIN_SIZE_COL, _rowDefinition.ColLinePos[_indexLinColSelected + 1] - MIN_SIZE_COL);
+        //        }
+        //        else if (_indexLinColSelected == _rowDefinition.Count - 1)
+        //        {
+        //            value = value.Clamp(_rowDefinition.ColLinePos[_indexLinColSelected - 1] + MIN_SIZE_COL, Width - MIN_SIZE_COL);
+        //        }
+        //        else
+        //        {
+        //            value = value.Clamp(_rowDefinition.ColLinePos[_indexLinColSelected - 1] + MIN_SIZE_COL, Width - MIN_SIZE_COL);
+        //        }
 
-                    tbb.Size = b.Size;
-                    tbb.Location = new Point(b.X, b.Y + (b.Height - tbb.Height) / 2);
-                }
+        //        _rowDefinition.ColDefinitions[_indexLinColSelected].Position = value;
 
-                Refresh();
-                //UpdateControls();
-            }
-        }
+
+        //        for (int row = 0; row < _rowCollection.Count; row++)
+        //        {
+        //            Rectangle? a = GetRect(_indexLinColSelected, row);
+        //            Rectangle? b = GetRect(_indexLinColSelected + 1, row);
+
+        //            if (!(a.HasValue && b.HasValue))
+        //                continue;
+
+        //            //Control ctrlA = _txts[row *( _col.Count+1) + _indexLinColSelected];
+        //            //Control ctrlB = _txts[row *( _col.Count+1) + _indexLinColSelected + 1];  
+                    
+        //            Control ctrlA = _rowCollection.GetRow(row).GetCol(_indexLinColSelected).Control;
+        //            Control ctrlB = _rowCollection.GetRow(row).GetCol(_indexLinColSelected+1).Control;
+
+        //            ctrlA.Size = a.Value.Size;
+        //            ctrlA.Location = new Point(a.Value.X, a.Value.Y + (a.Value.Height - ctrlA.Height) / 2);
+
+        //            ctrlB.Size = b.Value.Size;
+        //            ctrlB.Location = new Point(b.Value.X, b.Value.Y + (b.Value.Height - ctrlB.Height) / 2);
+        //        }
+
+        //        Refresh();
+        //        //UpdateControls();
+        //    }
+        //}
 
         #region interaction
 
@@ -353,13 +349,14 @@ namespace ALEControlLibrary.CTRL
         {
             base.OnMouseMove(e);
 
-
-            if (e.Location.Y <= rowHeight && !_isMovingLine)
+            if (e.Location.Y <= _rowDefinition.Height && !_isMovingLine)
             {
-                CheckColIndex(e);
+                //CheckColIndex(e);
             }
             else if (_isMovingLine)
-                MoveColIndex();
+            {
+                //MoveColIndex();
+            }
             else
             {
                 Cursor = Cursors.Default;
@@ -373,7 +370,7 @@ namespace ALEControlLibrary.CTRL
         protected override void OnMouseDown(MouseEventArgs e)
         {
 
-            if (_indexLinColSelected >= 0 && _indexLinColSelected < _col.Count )
+            if (_indexLinColSelected >= 0 && _indexLinColSelected < _rowDefinition.Count )
                 _isMovingLine = true;
 
             base.OnMouseDown(e);
