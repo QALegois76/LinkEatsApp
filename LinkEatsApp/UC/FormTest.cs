@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ALEControlLibrary;
+using ALEControlLibrary.CTRL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +22,13 @@ namespace LinkEatsApp.UC
             aleProgressH.IsTextVisisble = true;
             aleProgressH.Text = Math.Round(value * 100, 2).ToString() + "%";
             aleProgressV.PourcentValue = (float)(aleScrollBarV.Value - aleScrollBarV.Minimum) / (float)(aleScrollBarV.Maximum - aleScrollBarV.Minimum);
+
+            aleCombobox.Add("Item1");
+            aleCombobox.Add("Item2");
+            aleCombobox.Add("Item3");
+            aleCombobox.Add("Item4");
+            aleCombobox.Add("Item5");
+            aleCombobox.Add("Item6");
         }
 
         private void aleScrollBarH_Load(object sender, EventArgs e)

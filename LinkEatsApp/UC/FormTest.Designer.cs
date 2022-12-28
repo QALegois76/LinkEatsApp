@@ -1,4 +1,6 @@
-﻿namespace LinkEatsApp.UC
+﻿using ALEControlLibrary;
+
+namespace LinkEatsApp.UC
 {
     partial class FormTest
     {
@@ -33,6 +35,7 @@
             this.aleProgressH = new ALEControlLibrary.CTRL.ALEProgressBar();
             this.aleProgressV = new ALEControlLibrary.CTRL.ALEProgressBar();
             this.aleProgressH2 = new ALEControlLibrary.CTRL.ALEProgressBar();
+            this.aleCombobox = new ALEControlLibrary.ALEComboBox();
             this.SuspendLayout();
             // 
             // aleScrollBarV
@@ -129,7 +132,7 @@
             this.aleProgressH2.IsDebug = false;
             this.aleProgressH2.IsImgValueIsOver = true;
             this.aleProgressH2.IsTextVisisble = false;
-            this.aleProgressH2.Location = new System.Drawing.Point(105, 155);
+            this.aleProgressH2.Location = new System.Drawing.Point(118, 121);
             this.aleProgressH2.Name = "aleProgressH2";
             this.aleProgressH2.PourcentBack = 1F;
             this.aleProgressH2.PourcentFront = 1F;
@@ -140,6 +143,20 @@
             this.aleProgressH2.Size = new System.Drawing.Size(976, 189);
             this.aleProgressH2.TabIndex = 4;
             this.aleProgressH2.Text = "aleProgressBar1";
+            // 
+            // aleCombobox
+            // 
+            this.aleCombobox.BorderSize = 2;
+            this.aleCombobox.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.aleCombobox.IsBorderVisible = true;
+            this.aleCombobox.IsDebug = false;
+            this.aleCombobox.Location = new System.Drawing.Point(441, 480);
+            this.aleCombobox.Name = "aleCombobox";
+            this.aleCombobox.Radius = 15;
+            this.aleCombobox.RoundedTags = ALEControlLibrary.ERoundedTag.None;
+            this.aleCombobox.RoundedType = ALEControlLibrary.ERoundedType.All;
+            this.aleCombobox.Size = new System.Drawing.Size(225, 32);
+            this.aleCombobox.TabIndex = 5;
             // 
             // FormTest
             // 
@@ -152,6 +169,7 @@
             this.Controls.Add(this.aleProgressH);
             this.Controls.Add(this.aleScrollBarH);
             this.Controls.Add(this.aleScrollBarV);
+            this.Controls.Add(this.aleCombobox);
             this.Name = "FormTest";
             this.Text = "FormTest";
             this.ResumeLayout(false);
@@ -162,6 +180,7 @@
 
         private ALEControlLibrary.ALEScrollBar aleScrollBarV;
         private ALEControlLibrary.ALEScrollBar aleScrollBarH;
+        private ALEComboBox aleCombobox;
         private ALEControlLibrary.CTRL.ALEProgressBar aleProgressH;
         private ALEControlLibrary.CTRL.ALEProgressBar aleProgressV;
         private ALEControlLibrary.CTRL.ALEProgressBar aleProgressH2;
