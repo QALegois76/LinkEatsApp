@@ -93,6 +93,16 @@ namespace LinkEatsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap default_banner {
+            get {
+                object obj = ResourceManager.GetObject("default_banner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Delete {
             get {
                 object obj = ResourceManager.GetObject("Delete", resourceCulture);
@@ -351,11 +361,49 @@ namespace LinkEatsApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$.
+        /// </summary>
+        internal static string RegexEmail {
+            get {
+                return ResourceManager.GetString("RegexEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$.
+        /// </summary>
+        internal static string RegexPhone {
+            get {
+                return ResourceManager.GetString("RegexPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reset {
+            get {
+                object obj = ResourceManager.GetObject("reset", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Restaurant_tresclair {
             get {
                 object obj = ResourceManager.GetObject("Restaurant_tresclair", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap restoIcon {
+            get {
+                object obj = ResourceManager.GetObject("restoIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

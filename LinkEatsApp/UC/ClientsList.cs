@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LinkEatsApp
+namespace LinkEatsApp.UC
 {
-    public partial class FormUser : DefaultForm
+    public partial class ClientsList : UserControl
     {
-        public FormUser()
+        public ClientsList()
         {
             InitializeComponent();
+        }
+
+        private void ClientsList_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

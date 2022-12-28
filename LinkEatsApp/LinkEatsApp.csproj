@@ -31,9 +31,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="DefaultForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\DefaultForm.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,10 +39,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Forms\" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,12 @@ namespace ALEControlLibrary.CTRL
     public partial class ALERoundedTextbox : UserControl
     {
         private const int PIX_GAP_ANTI_ALLIAS = 1;
+        
+        [EditorBrowsable(EditorBrowsableState.Always)]
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Bindable(true)] 
+        public new event EventHandler TextChanged;
 
         private int _cornerRadius = 15;
         private int _borberSize = 2;
@@ -53,7 +59,8 @@ namespace ALEControlLibrary.CTRL
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [Bindable(true)] public override string Text { get => tb.Text; set => tb.Text = value; }
+        [Bindable(true)] 
+        public override string Text { get => tb.Text; set => tb.Text = value; }
 
         public ERoundedType RoundedType { get => _roundedType; set { _roundedType = value; UpdatedRegion(); } }
         public ERoundedTag RoundedTags { get => _roundedTag; set { _roundedTag = value; UpdatedRegion(); } }
@@ -105,12 +112,17 @@ namespace ALEControlLibrary.CTRL
             tb.LostFocus -= Tb_LostFocus;
             tb.LostFocus += Tb_LostFocus;
 
+            tb.TextChanged -= Tb_TextChanged;
+            tb.TextChanged += Tb_TextChanged;
+
             _bgWorker.DoWork -= _bgWorker_DoWork;
             _bgWorker.DoWork += _bgWorker_DoWork;
 
             _bgWorker.ProgressChanged -= _bgWorker_ProgressChanged;
             _bgWorker.ProgressChanged += _bgWorker_ProgressChanged;
         }
+
+        private void Tb_TextChanged(object? sender, EventArgs e) => TextChanged?.Invoke(this, e);
 
         private void _bgWorker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
@@ -211,7 +223,7 @@ namespace ALEControlLibrary.CTRL
             _pFore.StartCap = LineCap.Round;
             _pFore.EndCap = LineCap.Round;
 
-            if (tb.Focused)
+            if (tb.Focused && Enabled && Focused && !ReadOnly)
             {
                 Point pOrigin = new Point(this.Width/2,_borberSize+ tb.Location.Y + tb.Height + (this.Height - tb.Location.Y - tb.Height - _cornerRadius)/2);
                 Vector2 vOrigin = pOrigin.ToVector2();

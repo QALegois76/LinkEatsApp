@@ -190,7 +190,6 @@ namespace ALEControlLibrary
             this.Region = new Region(_graphPathRegionCtrl);
             pnl.Region = new Region(_graphPathRegionPnl);
 
-
             Refresh();
         }
 

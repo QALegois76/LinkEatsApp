@@ -82,6 +82,7 @@
             this.rbtn_close.ForeColor = System.Drawing.Color.Coral;
             this.rbtn_close.IsActivate = false;
             this.rbtn_close.IsAutoActivable = false;
+            this.rbtn_close.IsBorderVisible = true;
             this.rbtn_close.IsClickable = true;
             this.rbtn_close.IsDebug = false;
             this.rbtn_close.Location = new System.Drawing.Point(1338, 0);
@@ -114,7 +115,7 @@
             // rbtn_max
             // 
             this.rbtn_max.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rbtn_max.BackgroundImage = global::LinkEatsApp.Properties.Resources.max;
+            this.rbtn_max.BackgroundImage = global::LinkEatsApp.Properties.Resources.Maximiser_fenetre_tresclair;
             this.rbtn_max.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.rbtn_max.BorderSize = 2;
             this.rbtn_max.BorderSizeActiv = 10;
@@ -122,6 +123,7 @@
             this.rbtn_max.ForeColor = System.Drawing.Color.Coral;
             this.rbtn_max.IsActivate = false;
             this.rbtn_max.IsAutoActivable = false;
+            this.rbtn_max.IsBorderVisible = true;
             this.rbtn_max.IsClickable = true;
             this.rbtn_max.IsDebug = false;
             this.rbtn_max.Location = new System.Drawing.Point(1287, 0);
@@ -147,6 +149,7 @@
             this.rbtn_min.ForeColor = System.Drawing.Color.Coral;
             this.rbtn_min.IsActivate = false;
             this.rbtn_min.IsAutoActivable = false;
+            this.rbtn_min.IsBorderVisible = true;
             this.rbtn_min.IsClickable = true;
             this.rbtn_min.IsDebug = false;
             this.rbtn_min.Location = new System.Drawing.Point(1240, 0);

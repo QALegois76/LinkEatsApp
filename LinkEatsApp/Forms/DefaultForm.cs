@@ -18,6 +18,7 @@ namespace LinkEatsApp
         private Point _offsetLoc = new Point();
 
         public string Title { get => lb_title.Text; set=> lb_title.Text = value; }
+        public bool IsWindowStateFixed { get => !rbtn_max.Visible; set => rbtn_max.Visible = rbtn_min.Visible = !value; }
 
 
         protected override CreateParams CreateParams

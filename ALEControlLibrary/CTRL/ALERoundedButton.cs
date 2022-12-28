@@ -20,6 +20,7 @@ namespace ALEControlLibrary.CTRL
         protected bool _isClickable = true;
         protected bool _isActivated = false;
         protected bool _isAutoActivable = false;
+        protected bool _isBorderVisible = true;
 
         private int _radius = 15;
         private int _borderSize = 5;
@@ -43,6 +44,7 @@ namespace ALEControlLibrary.CTRL
         public bool IsClickable { get => _isClickable; set => _isClickable=value; }
         public bool IsActivate { get => _isActivated; set { _isActivated = value; Invalidate(); } }
         public bool IsAutoActivable { get => _isAutoActivable; set => _isAutoActivable = value; }
+        public bool IsBorderVisible { get => _isBorderVisible; set { _isBorderVisible = value; Invalidate(); } }
 
         public int  Radius { get => _radius; set { _radius = value; UpdateRegion(); } }
         public int BorderSize { get=> _borderSize; set { _borderSize = value; UpdateRegion(); } }
@@ -163,7 +165,8 @@ namespace ALEControlLibrary.CTRL
 
             // border
             pevent.Graphics.Clip = new Region(DisplayRectangle);
-            pevent.Graphics.DrawPath(new Pen(_bFore,_isActivated? _borderSizeActiv: _borderSize),_isActivated? _gpActivBorder: _gpBorder);
+            if (_isBorderVisible)
+                pevent.Graphics.DrawPath(new Pen(_bFore,_isActivated? _borderSizeActiv: _borderSize),_isActivated? _gpActivBorder: _gpBorder);
         }
 
 
