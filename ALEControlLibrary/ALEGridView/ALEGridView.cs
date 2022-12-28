@@ -58,9 +58,9 @@ namespace ALEControlLibrary.CTRL
             get => _rowCollection; 
             set 
             {
-                _rowCollection.RowChanged -= RowCollection_RowChanged;
+                _rowCollection.RowCollectionChanged -= RowCollection_RowChanged;
                 _rowCollection = value; 
-                _rowCollection.RowChanged += RowCollection_RowChanged;
+                _rowCollection.RowCollectionChanged += RowCollection_RowChanged;
                 ReBuildGridView(); 
             } 
         }
@@ -76,7 +76,7 @@ namespace ALEControlLibrary.CTRL
             _rowDefinition.OnRebuild += RowDefinition_OnRebuild;
             _rowCollection = new ALERowCollection(_rowDefinition);
 
-            _rowCollection.RowChanged += RowCollection_RowChanged;
+            _rowCollection.RowCollectionChanged += RowCollection_RowChanged;
 
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
@@ -151,6 +151,7 @@ namespace ALEControlLibrary.CTRL
             {
                 _rowDefinition.RowLinePos.Add(iRow * _rowDefinition.Height);
             }
+            _rowCollection.SetMaxRow(_rowDefinition.RowLinePos.Count + 1);
         }
 
         private void RegenRegion()
@@ -227,6 +228,9 @@ namespace ALEControlLibrary.CTRL
             {
                 ALERow row = _rowCollection.GetRow(i);
                 if (row == null) continue;
+
+                if (!row.IsVisible)
+                    continue;
 
                 Rectangle rect = new Rectangle();
                 rect.X = GAP_ANTI_ALLIAS + _borderSize;

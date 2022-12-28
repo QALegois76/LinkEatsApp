@@ -6,12 +6,15 @@ namespace ALEControlLibrary.CTRL
     public class ALERowCollection
     {
         public event EventHandler<ALEGridViewChengedEventArgs> ItemChanged;
-        public event NotifyCollectionChangedEventHandler RowChanged { add => _rows.CollectionChanged += value; remove => _rows.CollectionChanged -= value; }
+        public event NotifyCollectionChangedEventHandler RowCollectionChanged { add => _rows.CollectionChanged += value; remove => _rows.CollectionChanged -= value; }
 
         protected ALERowDefinition _rowDefinition;
 
         protected ObservableCollection<ALERow> _rows = new ObservableCollection<ALERow>();
 
+        /// <summary>
+        /// return the number of rows in case of virtuallist it's return the max row
+        /// </summary>
         public int Count => _rows.Count;
         
         // constructor
@@ -33,7 +36,6 @@ namespace ALEControlLibrary.CTRL
             row.Invalidate();
             return row;
         }
-
 
         public virtual void RemoveRow(ALERow row)
         {
@@ -76,7 +78,19 @@ namespace ALEControlLibrary.CTRL
         }
 
         protected virtual void UpdateUI(ALEColControl colControl) { }
-   
+
+        // Code not used
+        internal virtual void SetMaxRow(int n)
+        {
+            if (Count> 0)
+                Clear();
+            for (int i = 0; i < n; i++)
+            {
+                ALERow row = AddRow();
+                row.IsVisible = false;
+            }
+        }
+
         private void Rows_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             for (int i = 0; i < _rows.Count; i++)
@@ -104,5 +118,109 @@ namespace ALEControlLibrary.CTRL
 
             UpdateUI(col);
         }
+    }
+
+
+
+
+
+    public abstract class ALERowVirtualCollection<TData> : ALERowCollection where TData : class
+    {
+        protected List<TData> _datas= new List<TData>();
+
+        protected int _indexStartData = 0;
+
+        public int IndexStartData { get => _indexStartData; set { _indexStartData = value; } }
+
+        // constructor
+        protected ALERowVirtualCollection(ALERowDefinition rowDefinition) : base(rowDefinition)
+        {
+            this.ItemChanged += RowCollection_ItemChanged;
+            this.RowCollectionChanged += RowCollection_RowCollectionChanged;
+        }
+
+
+        private void RowCollection_RowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateDataToUI();
+        }
+
+        private void RowCollection_ItemChanged(object? sender, ALEGridViewChengedEventArgs e)
+        {
+            ALERow row = GetRow(e.Id);
+            if (row.Index < 0 || row.Index > _datas.Count) 
+                return;
+
+            UpdateUIToData(row, _datas[row.Index]);
+        }
+
+        public virtual void AddData(TData data)
+        {
+            _datas.Add(data);
+            UpdateDataToUI();
+        }
+
+        public virtual void RemoveData(TData data)
+        {
+            _datas.Remove(data);
+            UpdateDataToUI();
+        }
+
+        public virtual void RemoveDataAt(int i)
+        {
+            _datas.RemoveAt(i);
+            UpdateDataToUI();
+        }
+
+        public virtual void Clear()
+        {
+            _datas.Clear();
+            UpdateDataToUI();
+        }
+
+        public virtual TData GetData(int i)
+        {
+            if (i < 0 || i >= _datas.Count)
+                return null;
+
+            return _datas[i];
+        }
+
+
+        protected void UpdateDataToUI()
+        {
+            for (int i = 0; i <  Count; i++)
+            {
+                ALERow row = GetRow(i);
+                if (_indexStartData+i>=0 && _indexStartData + i < _datas.Count)
+                {
+                    row.IsVisible= true;
+                    row.Index = _indexStartData+i;
+                    TData d = _datas[_indexStartData + i];
+                    UpdateDataToUI(row, d);
+                }
+                else
+                {
+                    row.Index = -1;
+                    row.IsVisible= false;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// call to update the UI
+        /// </summary>
+        /// <param name="colControl"></param>
+        /// <param name="data"></param>
+        protected abstract void UpdateDataToUI(ALERow colControl, TData data);
+
+        /// <summary>
+        /// call to update the model
+        /// </summary>
+        /// <param name="colControl"></param>
+        /// <param name="data"></param>
+        protected abstract void UpdateUIToData(ALERow colControl, TData data);
+        protected abstract void UpdateUI (ALEColControl colControl);
     }
 }

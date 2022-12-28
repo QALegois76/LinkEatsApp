@@ -6,6 +6,7 @@
         public event EventHandler<ALEGridViewChengedEventArgs> RowChanged;
         public event EventHandler<ALEGridViewChengedEventArgs> UIInvalidated;
 
+        private bool _isVisible = true;
         private int _index = -1;
         //private int _position = 0;
         private Guid _id= Guid.Empty;
@@ -14,7 +15,15 @@
         //internal int Position { get=> _position; set => _position = value; }
         internal int Index { get => _index; set => _index = value; }
         public Guid Id  => _id; 
-
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                _isVisible = value;
+                _rowCtrls.ToList().ForEach(col => col.Value.ControlVisible = value);
+            }
+        }
 
         // constructor
         internal ALERow(Dictionary<string, ALEColControl> ctrls)
@@ -29,7 +38,7 @@
 
         public void Invalidate() 
         {
-            _rowCtrls.Values.ToList().ForEach(c => UIInvalidated?.Invoke(c, new ALEGridViewChengedEventArgs(_index,c.IdSetting,_id)));
+            _rowCtrls.Values.ToList().ForEach(c => UIInvalidated?.Invoke(c, new ALEGridViewChengedEventArgs(_index,c.IdCol,_id)));
         }
 
 

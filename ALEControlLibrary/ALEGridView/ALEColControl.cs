@@ -25,7 +25,7 @@
         public Color ControlBackColor { get => _control.BackColor; set => _control.BackColor = value;  }
         public string ControlText { get => _control.Text; set => _control.Text = value;  }
         
-        public string IdSetting => _idCol;
+        public string IdCol => _idCol;
         
         public Size ControlSize { get => _control.Size; set=> _control.Size = value; }
         

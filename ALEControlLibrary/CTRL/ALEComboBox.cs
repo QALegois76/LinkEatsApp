@@ -280,7 +280,6 @@ namespace ALEControlLibrary
             _bBack = new SolidBrush(BackColor);
             UpdateRegion();
 
-            this.Height = TextRenderer.MeasureText("I", Font).Height+2*(_borderSize+GAP_ANTI_ALLIAS + GAP_TEXT);
         }
 
 
@@ -420,12 +419,6 @@ namespace ALEControlLibrary
         }
 
 
-
-        protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
-        {
-            height = TextRenderer.MeasureText("I", Font).Height + 2 * (_borderSize + GAP_ANTI_ALLIAS + GAP_TEXT);
-            base.SetBoundsCore(x, y, width, height, specified);
-        }
         
         protected override void OnFontChanged(EventArgs e)
         {

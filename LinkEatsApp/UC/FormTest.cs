@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace LinkEatsApp.UC
 {
@@ -52,15 +53,30 @@ namespace LinkEatsApp.UC
         private void btn_add_Click(object sender, EventArgs e)
         {
             TestData testData = new TestData() { Guid = Guid.Parse(tb_id.Text),Name = tb_name.Text, LastName = tb_lastName.Text };
-            dataCollection.Add(testData);
+            dataCollection.AddData(testData);
             tb_id.Text = Guid.NewGuid().ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dataCollection.Clear();
+            for (int i = 0; i < 100; i++)
+            {
+                TestData testData = new TestData();
+                testData.Name = RegenWord(rand.Next(4, 12));
+                testData.LastName = RegenWord(rand.Next(4, 12));
+                dataCollection.AddData(testData);
+            }
+            aleScrollBar1.Minimum = 0;
+            aleScrollBar1.Maximum = 100 - dataCollection.Count;
+            aleScrollBar1.Value= 0;
         }
     }
 
 
 
 
-    public class TestDataCollection : ALERowCollection
+    public class TestDataCollection : ALERowVirtualCollection<TestData>
     {
 
         enum ECol
@@ -76,37 +92,11 @@ namespace LinkEatsApp.UC
         public TestDataCollection(ALERowDefinition rowDefinition) : base(rowDefinition)
         {
             rowDefinition.Height = 50;
-            rowDefinition.AddColDef(new ALEColDefinitionCheckbox(ECol.Selection.ToString()) { IsAbsolute = true, ColWidth = 50});
+            rowDefinition.AddColDef(new ALEColDefinitionCheckbox(ECol.Selection.ToString()) { IsAbsolute = true, ColWidth = 50 });
             rowDefinition.AddColDef(new ALEColDefinitionLabel(ECol.Id.ToString()) { IsAbsolute = false, ColWidth = 40 });
             rowDefinition.AddColDef(new ALEColDefinitionTextbox(ECol.Name.ToString()) { IsAbsolute = false, ColWidth = 20 });
             rowDefinition.AddColDef(new ALEColDefinitionTextbox(ECol.Lastname.ToString()) { IsAbsolute = false, ColWidth = 20 });
             rowDefinition.AddColDef(new ALEColDefinitionRoundedButon(ECol.Delete.ToString()) { IsAbsolute = true, ColWidth = 50 });
-        }
-
-        public void Add(TestData testData)
-        {
-            ALERow row = base.AddRow();
-            (row.GetCol(ECol.Id.ToString()) as ALEColLabel).ControlText = testData.Guid.ToString();
-            (row.GetCol(ECol.Name.ToString()) as ALEColTexbox).ControlText = testData.Name.ToString();
-            (row.GetCol(ECol.Lastname.ToString()) as ALEColTexbox).ControlText = testData.LastName.ToString();
-        }
-
-        public void Remove(Guid id)
-        {
-            foreach (ALERow row in _rows)
-            {
-                ALEColControl colCtrl = row.GetCol(ECol.Id.ToString());
-                if (colCtrl is ALEColLabel)
-                {
-                    Guid g;
-                    if (Guid.TryParse((colCtrl as ALEColLabel).ControlText, out g))
-                    {
-                        if (g == id)
-                            base.RemoveRow(row.Id);
-                    }
-                }
-            }
-
         }
 
         protected override void UpdateUI(ALEColControl colControl)
@@ -117,7 +107,7 @@ namespace LinkEatsApp.UC
             colControl.ControlFont = new Font("Segoe UI", 11);
 
             ECol col;
-            if (!Enum.TryParse(colControl.IdSetting,out col))
+            if (!Enum.TryParse(colControl.IdCol, out col))
                 return;
 
             switch (col)
@@ -134,6 +124,19 @@ namespace LinkEatsApp.UC
                     break;
             }
 
+        }
+
+        protected override void UpdateDataToUI(ALERow colControl, TestData data)
+        {
+            colControl.GetCol(ECol.Id.ToString()).ControlText = data.Guid.ToString();
+            colControl.GetCol(ECol.Name.ToString()).ControlText = data.Name.ToString();
+            colControl.GetCol(ECol.Lastname.ToString()).ControlText = data.LastName.ToString();
+        }
+
+        protected override void UpdateUIToData(ALERow colControl, TestData data)
+        {
+            data.Name = colControl.GetCol(ECol.Name.ToString()).ControlText;
+            data.LastName = colControl.GetCol(ECol.Lastname.ToString()).ControlText;
         }
     }
 

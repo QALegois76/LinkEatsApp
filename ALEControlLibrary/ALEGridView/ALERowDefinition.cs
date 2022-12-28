@@ -82,7 +82,12 @@
 
         public void RemoveRowCtrl(ALERow row)
         {
-            _colDefinitions.ForEach(colDef => _ctrlCollection.Remove(row.GetCol(colDef.Title).Control));
+            _colDefinitions.ForEach(colDef =>
+            {
+                var temp = row.GetCol(colDef.Title);
+                if (temp != null)
+                    _ctrlCollection.Remove(temp.Control);
+            });
         }
 
         #endregion
