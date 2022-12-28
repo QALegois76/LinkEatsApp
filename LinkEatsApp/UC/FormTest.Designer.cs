@@ -1,6 +1,4 @@
-﻿using ALEControlLibrary;
-
-namespace LinkEatsApp.UC
+﻿namespace LinkEatsApp.UC
 {
     partial class FormTest
     {
@@ -30,159 +28,164 @@ namespace LinkEatsApp.UC
         /// </summary>
         private void InitializeComponent()
         {
-            this.aleScrollBarV = new ALEControlLibrary.ALEScrollBar();
-            this.aleScrollBarH = new ALEControlLibrary.ALEScrollBar();
-            this.aleProgressH = new ALEControlLibrary.CTRL.ALEProgressBar();
-            this.aleProgressV = new ALEControlLibrary.CTRL.ALEProgressBar();
-            this.aleProgressH2 = new ALEControlLibrary.CTRL.ALEProgressBar();
-            this.aleCombobox = new ALEControlLibrary.ALEComboBox();
+            this.aleGridView1 = new ALEControlLibrary.CTRL.ALEGridView();
+            this.btn_random = new System.Windows.Forms.Button();
+            this.btn_add = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tb_name = new System.Windows.Forms.TextBox();
+            this.tb_lastName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_id = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.aleScrollBar1 = new ALEControlLibrary.ALEScrollBar();
             this.SuspendLayout();
             // 
-            // aleScrollBarV
+            // aleGridView1
             // 
-            this.aleScrollBarV.BorderSize = 2;
-            this.aleScrollBarV.CornerRadius = 15;
-            this.aleScrollBarV.Dock = System.Windows.Forms.DockStyle.Left;
-            this.aleScrollBarV.GapBorderGrip = 2;
-            this.aleScrollBarV.GripSize = 35;
-            this.aleScrollBarV.IsAllowClickGoTo = false;
-            this.aleScrollBarV.Location = new System.Drawing.Point(0, 0);
-            this.aleScrollBarV.Maximum = 100;
-            this.aleScrollBarV.Minimum = 0;
-            this.aleScrollBarV.Mode = ALEControlLibrary.ALEScrollBar.EMode.Vertical;
-            this.aleScrollBarV.Name = "aleScrollBarV";
-            this.aleScrollBarV.RoundedTag = ALEControlLibrary.ERoundedTag.None;
-            this.aleScrollBarV.RoundedType = ALEControlLibrary.ERoundedType.All;
-            this.aleScrollBarV.Size = new System.Drawing.Size(40, 693);
-            this.aleScrollBarV.TabIndex = 0;
-            this.aleScrollBarV.Value = 0;
-            this.aleScrollBarV.ValueChanged += new System.EventHandler(this.aleScrollBarV_Load);
+            this.aleGridView1.BorderSize = 2;
+            this.aleGridView1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.aleGridView1.GridLineSize = 1;
+            this.aleGridView1.IsDebug = false;
+            this.aleGridView1.Location = new System.Drawing.Point(0, 0);
+            this.aleGridView1.Name = "aleGridView1";
+            this.aleGridView1.RoundedTag = ALEControlLibrary.ERoundedTag.None;
+            this.aleGridView1.RoundedType = ALEControlLibrary.ERoundedType.Left;
+            this.aleGridView1.Size = new System.Drawing.Size(694, 636);
+            this.aleGridView1.TabIndex = 0;
             // 
-            // aleScrollBarH
+            // btn_random
             // 
-            this.aleScrollBarH.BorderSize = 2;
-            this.aleScrollBarH.CornerRadius = 15;
-            this.aleScrollBarH.Dock = System.Windows.Forms.DockStyle.Top;
-            this.aleScrollBarH.GapBorderGrip = 2;
-            this.aleScrollBarH.GripSize = 35;
-            this.aleScrollBarH.IsAllowClickGoTo = false;
-            this.aleScrollBarH.Location = new System.Drawing.Point(40, 0);
-            this.aleScrollBarH.Maximum = 100;
-            this.aleScrollBarH.Minimum = 0;
-            this.aleScrollBarH.Mode = ALEControlLibrary.ALEScrollBar.EMode.Horizontal;
-            this.aleScrollBarH.Name = "aleScrollBarH";
-            this.aleScrollBarH.RoundedTag = ALEControlLibrary.ERoundedTag.None;
-            this.aleScrollBarH.RoundedType = ALEControlLibrary.ERoundedType.All;
-            this.aleScrollBarH.Size = new System.Drawing.Size(1066, 40);
-            this.aleScrollBarH.TabIndex = 1;
-            this.aleScrollBarH.Value = 0;
-            this.aleScrollBarH.ValueChanged += new System.EventHandler(this.aleScrollBarH_Load);
+            this.btn_random.Location = new System.Drawing.Point(822, 162);
+            this.btn_random.Name = "btn_random";
+            this.btn_random.Size = new System.Drawing.Size(100, 23);
+            this.btn_random.TabIndex = 1;
+            this.btn_random.Text = "Random";
+            this.btn_random.UseVisualStyleBackColor = true;
+            this.btn_random.Click += new System.EventHandler(this.btn_random_Click);
             // 
-            // aleProgressH
+            // btn_add
             // 
-            this.aleProgressH.BorderSize = 5;
-            this.aleProgressH.Direction = ALEControlLibrary.CTRL.ALEProgressBar.EDirection.Horizontal;
-            this.aleProgressH.ImgDecor = null;
-            this.aleProgressH.ImgValue = null;
-            this.aleProgressH.IsBorderVisible = true;
-            this.aleProgressH.IsDebug = false;
-            this.aleProgressH.IsImgValueIsOver = false;
-            this.aleProgressH.IsTextVisisble = false;
-            this.aleProgressH.Location = new System.Drawing.Point(105, 56);
-            this.aleProgressH.Name = "aleProgressH";
-            this.aleProgressH.PourcentBack = 1F;
-            this.aleProgressH.PourcentFront = 1F;
-            this.aleProgressH.PourcentValue = 0.25F;
-            this.aleProgressH.Radius = 15;
-            this.aleProgressH.RoundedTags = ALEControlLibrary.ERoundedTag.None;
-            this.aleProgressH.RoundedType = ALEControlLibrary.ERoundedType.All;
-            this.aleProgressH.Size = new System.Drawing.Size(976, 43);
-            this.aleProgressH.TabIndex = 2;
-            this.aleProgressH.Text = "aleProgressBar1";
+            this.btn_add.Location = new System.Drawing.Point(742, 209);
+            this.btn_add.Name = "btn_add";
+            this.btn_add.Size = new System.Drawing.Size(241, 41);
+            this.btn_add.TabIndex = 2;
+            this.btn_add.Text = "ADD";
+            this.btn_add.UseVisualStyleBackColor = true;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
-            // aleProgressV
+            // label1
             // 
-            this.aleProgressV.BorderSize = 5;
-            this.aleProgressV.Direction = ALEControlLibrary.CTRL.ALEProgressBar.EDirection.Vertical;
-            this.aleProgressV.ImgDecor = null;
-            this.aleProgressV.ImgValue = null;
-            this.aleProgressV.IsBorderVisible = true;
-            this.aleProgressV.IsDebug = false;
-            this.aleProgressV.IsImgValueIsOver = false;
-            this.aleProgressV.IsTextVisisble = false;
-            this.aleProgressV.Location = new System.Drawing.Point(46, 56);
-            this.aleProgressV.Name = "aleProgressV";
-            this.aleProgressV.PourcentBack = 1F;
-            this.aleProgressV.PourcentFront = 1F;
-            this.aleProgressV.PourcentValue = 0.25F;
-            this.aleProgressV.Radius = 15;
-            this.aleProgressV.RoundedTags = ALEControlLibrary.ERoundedTag.None;
-            this.aleProgressV.RoundedType = ALEControlLibrary.ERoundedType.All;
-            this.aleProgressV.Size = new System.Drawing.Size(42, 625);
-            this.aleProgressV.TabIndex = 3;
-            this.aleProgressV.Text = "aleProgressBar2";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(771, 84);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Name :";
             // 
-            // aleProgressH2
+            // tb_name
             // 
-            this.aleProgressH2.BorderSize = 5;
-            this.aleProgressH2.Direction = ALEControlLibrary.CTRL.ALEProgressBar.EDirection.Horizontal;
-            this.aleProgressH2.ImgDecor = global::LinkEatsApp.Properties.Resources.Etoiles_pleines;
-            this.aleProgressH2.ImgValue = global::LinkEatsApp.Properties.Resources.Etoiles_pleines_Jaunes;
-            this.aleProgressH2.IsBorderVisible = false;
-            this.aleProgressH2.IsDebug = false;
-            this.aleProgressH2.IsImgValueIsOver = true;
-            this.aleProgressH2.IsTextVisisble = false;
-            this.aleProgressH2.Location = new System.Drawing.Point(118, 121);
-            this.aleProgressH2.Name = "aleProgressH2";
-            this.aleProgressH2.PourcentBack = 1F;
-            this.aleProgressH2.PourcentFront = 1F;
-            this.aleProgressH2.PourcentValue = 0.25F;
-            this.aleProgressH2.Radius = 15;
-            this.aleProgressH2.RoundedTags = ALEControlLibrary.ERoundedTag.None;
-            this.aleProgressH2.RoundedType = ALEControlLibrary.ERoundedType.All;
-            this.aleProgressH2.Size = new System.Drawing.Size(976, 189);
-            this.aleProgressH2.TabIndex = 4;
-            this.aleProgressH2.Text = "aleProgressBar1";
+            this.tb_name.Location = new System.Drawing.Point(822, 81);
+            this.tb_name.Name = "tb_name";
+            this.tb_name.Size = new System.Drawing.Size(158, 23);
+            this.tb_name.TabIndex = 4;
+            this.tb_name.Text = "Antoine";
             // 
-            // aleCombobox
+            // tb_lastName
             // 
-            this.aleCombobox.BorderSize = 2;
-            this.aleCombobox.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.aleCombobox.IsBorderVisible = true;
-            this.aleCombobox.IsDebug = false;
-            this.aleCombobox.Location = new System.Drawing.Point(441, 480);
-            this.aleCombobox.Name = "aleCombobox";
-            this.aleCombobox.Radius = 15;
-            this.aleCombobox.RoundedTags = ALEControlLibrary.ERoundedTag.None;
-            this.aleCombobox.RoundedType = ALEControlLibrary.ERoundedType.All;
-            this.aleCombobox.Size = new System.Drawing.Size(225, 32);
-            this.aleCombobox.TabIndex = 5;
+            this.tb_lastName.Location = new System.Drawing.Point(822, 121);
+            this.tb_lastName.Name = "tb_lastName";
+            this.tb_lastName.Size = new System.Drawing.Size(158, 23);
+            this.tb_lastName.TabIndex = 6;
+            this.tb_lastName.Text = "LEGOIS";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(747, 124);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "LastName : ";
+            // 
+            // tb_id
+            // 
+            this.tb_id.Location = new System.Drawing.Point(822, 37);
+            this.tb_id.Name = "tb_id";
+            this.tb_id.Size = new System.Drawing.Size(158, 23);
+            this.tb_id.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(793, 40);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 15);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Id :";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(742, 275);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(241, 41);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "ADD 100 Random";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // aleScrollBar1
+            // 
+            this.aleScrollBar1.BorderSize = 1;
+            this.aleScrollBar1.CornerRadius = 15;
+            this.aleScrollBar1.GapBorderGrip = 2;
+            this.aleScrollBar1.GripSize = 35;
+            this.aleScrollBar1.IsAllowClickGoTo = false;
+            this.aleScrollBar1.Location = new System.Drawing.Point(692, 0);
+            this.aleScrollBar1.Maximum = 100;
+            this.aleScrollBar1.Minimum = 0;
+            this.aleScrollBar1.Mode = ALEControlLibrary.ALEScrollBar.EMode.Vertical;
+            this.aleScrollBar1.Name = "aleScrollBar1";
+            this.aleScrollBar1.RoundedTag = ALEControlLibrary.ERoundedTag.None;
+            this.aleScrollBar1.RoundedType = ALEControlLibrary.ERoundedType.Right;
+            this.aleScrollBar1.Size = new System.Drawing.Size(26, 636);
+            this.aleScrollBar1.TabIndex = 10;
+            this.aleScrollBar1.Value = 0;
             // 
             // FormTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(1106, 693);
-            this.Controls.Add(this.aleProgressH2);
-            this.Controls.Add(this.aleProgressV);
-            this.Controls.Add(this.aleProgressH);
-            this.Controls.Add(this.aleScrollBarH);
-            this.Controls.Add(this.aleScrollBarV);
-            this.Controls.Add(this.aleCombobox);
+            this.ClientSize = new System.Drawing.Size(985, 636);
+            this.Controls.Add(this.aleScrollBar1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.tb_id);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tb_lastName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tb_name);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btn_add);
+            this.Controls.Add(this.btn_random);
+            this.Controls.Add(this.aleGridView1);
             this.Name = "FormTest";
             this.Text = "FormTest";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private ALEControlLibrary.ALEScrollBar aleScrollBarV;
-        private ALEControlLibrary.ALEScrollBar aleScrollBarH;
-        private ALEComboBox aleCombobox;
-        private ALEControlLibrary.CTRL.ALEProgressBar aleProgressH;
-        private ALEControlLibrary.CTRL.ALEProgressBar aleProgressV;
-        private ALEControlLibrary.CTRL.ALEProgressBar aleProgressH2;
+        private ALEControlLibrary.CTRL.ALEGridView aleGridView1;
+        private Button btn_random;
+        private Button btn_add;
+        private Label label1;
+        private TextBox tb_name;
+        private TextBox tb_lastName;
+        private Label label2;
+        private TextBox tb_id;
+        private Label label3;
+        private Button button1;
+        private ALEControlLibrary.ALEScrollBar aleScrollBar1;
     }
 }
