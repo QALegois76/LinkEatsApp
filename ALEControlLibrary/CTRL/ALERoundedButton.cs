@@ -164,8 +164,6 @@ namespace ALEControlLibrary.CTRL
             // border
             pevent.Graphics.Clip = new Region(DisplayRectangle);
             pevent.Graphics.DrawPath(new Pen(_bFore,_isActivated? _borderSizeActiv: _borderSize),_isActivated? _gpActivBorder: _gpBorder);
-
-            Trace.WriteLine("_isActivated : "+_isActivated);
         }
 
 
