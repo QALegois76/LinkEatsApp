@@ -43,14 +43,11 @@
             // 
             // aleGridView1
             // 
-            this.aleGridView1.BorderSize = 2;
             this.aleGridView1.Dock = System.Windows.Forms.DockStyle.Left;
             this.aleGridView1.GridLineSize = 1;
             this.aleGridView1.IsDebug = false;
             this.aleGridView1.Location = new System.Drawing.Point(0, 0);
             this.aleGridView1.Name = "aleGridView1";
-            this.aleGridView1.RoundedTag = ALEControlLibrary.ERoundedTag.None;
-            this.aleGridView1.RoundedType = ALEControlLibrary.ERoundedType.Left;
             this.aleGridView1.Size = new System.Drawing.Size(694, 636);
             this.aleGridView1.TabIndex = 0;
             // 
@@ -151,6 +148,7 @@
             this.aleScrollBar1.Size = new System.Drawing.Size(26, 636);
             this.aleScrollBar1.TabIndex = 10;
             this.aleScrollBar1.Value = 0;
+            this.aleScrollBar1.ValueChanged += new System.EventHandler(this.aleScrollBar1_ValueChanged);
             // 
             // FormTest
             // 

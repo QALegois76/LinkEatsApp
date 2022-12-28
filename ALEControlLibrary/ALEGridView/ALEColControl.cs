@@ -12,11 +12,13 @@
         #region members
         private readonly string _idCol;     
         protected Control _control;
+        protected bool _isSettingValues = false;
         #endregion
 
 
         #region attibutes
         internal Control Control => _control;
+        internal bool IsSettingValues { get => _isSettingValues; set =>  _isSettingValues = value;}
         
         public bool ControlEnable { get => _control.Enabled; set=> _control.Enabled = value; }
         public bool ControlVisible { get => _control.Visible; set=> _control.Visible = value; }
@@ -41,7 +43,12 @@
 
         public virtual void Invalidate()=>UIInvalidated?.Invoke(this, new EventArgs<string>(_idCol));
 
-        protected void FireCtrlChanged() =>ValueChanged?.Invoke(this, new EventArgs<string>(_idCol));
+        protected void FireCtrlChanged()
+        {
+            if (_isSettingValues)
+                return;
+            ValueChanged?.Invoke(this, new EventArgs<string>(_idCol));
+        }
     }
 
     #endregion

@@ -55,21 +55,35 @@ namespace LinkEatsApp.UC
             TestData testData = new TestData() { Guid = Guid.Parse(tb_id.Text),Name = tb_name.Text, LastName = tb_lastName.Text };
             dataCollection.AddData(testData);
             tb_id.Text = Guid.NewGuid().ToString();
+
+            aleScrollBar1.Minimum = 0;
+            aleScrollBar1.Maximum = 100 - dataCollection.RowCount;
+            aleScrollBar1.Value = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             dataCollection.Clear();
+            List<TestData> list = new List<TestData>();
             for (int i = 0; i < 100; i++)
             {
                 TestData testData = new TestData();
+                testData.Guid = Guid.NewGuid();
                 testData.Name = RegenWord(rand.Next(4, 12));
-                testData.LastName = RegenWord(rand.Next(4, 12));
-                dataCollection.AddData(testData);
+                testData.LastName = i.ToString();
+                list.Add(testData);
             }
+
+            dataCollection.AddRangeData(list);
+
             aleScrollBar1.Minimum = 0;
-            aleScrollBar1.Maximum = 100 - dataCollection.Count;
+            aleScrollBar1.Maximum = 100 - dataCollection.RowCount+2;
             aleScrollBar1.Value= 0;
+        }
+
+        private void aleScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            dataCollection.IndexStartData = aleScrollBar1.Value;
         }
     }
 
@@ -104,7 +118,6 @@ namespace LinkEatsApp.UC
 
             colControl.ControlBackColor = ALEToolsUtility.AyoBackGray1;
             colControl.ControlForeColor = ALEToolsUtility.AyoLightGray;
-            colControl.ControlFont = new Font("Segoe UI", 11);
 
             ECol col;
             if (!Enum.TryParse(colControl.IdCol, out col))
@@ -115,8 +128,11 @@ namespace LinkEatsApp.UC
                 case ECol.Selection:
                     break;
                 case ECol.Id:
+            colControl.ControlFont = new Font("Segoe UI", 8);
+                    break;
                 case ECol.Name:
                 case ECol.Lastname:
+            colControl.ControlFont = new Font("Segoe UI", 11);
                     break;
                 case ECol.Delete:
                     break;
@@ -126,11 +142,16 @@ namespace LinkEatsApp.UC
 
         }
 
-        protected override void UpdateDataToUI(ALERow colControl, TestData data)
+        protected override void UpdateDataToUI(ALERow row, TestData data)
         {
-            colControl.GetCol(ECol.Id.ToString()).ControlText = data.Guid.ToString();
-            colControl.GetCol(ECol.Name.ToString()).ControlText = data.Name.ToString();
-            colControl.GetCol(ECol.Lastname.ToString()).ControlText = data.LastName.ToString();
+
+            row.GetCol(ECol.Id.ToString()).ControlText = data.Guid.ToString();
+            row.GetCol(ECol.Name.ToString()).ControlText = data.Name.ToString();
+
+            string lstNm = data.LastName;
+            ALEColControl colC = row.GetCol(ECol.Lastname.ToString());
+            colC.ControlText = lstNm;
+            row.GetCol(ECol.Lastname.ToString()).ControlText = data.LastName.ToString();
         }
 
         protected override void UpdateUIToData(ALERow colControl, TestData data)

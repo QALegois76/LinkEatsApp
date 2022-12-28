@@ -5,6 +5,7 @@ namespace ALEControlLibrary.CTRL
 {
     public class ALERowCollection
     {
+        internal event EventHandler RefreshGrigView;
         public event EventHandler<ALEGridViewChengedEventArgs> ItemChanged;
         public event NotifyCollectionChangedEventHandler RowCollectionChanged { add => _rows.CollectionChanged += value; remove => _rows.CollectionChanged -= value; }
 
@@ -15,7 +16,7 @@ namespace ALEControlLibrary.CTRL
         /// <summary>
         /// return the number of rows in case of virtuallist it's return the max row
         /// </summary>
-        public int Count => _rows.Count;
+        public int RowCount => _rows.Count;
         
         // constructor
         public ALERowCollection(ALERowDefinition rowDefinition)
@@ -48,12 +49,20 @@ namespace ALEControlLibrary.CTRL
             int i = _rows.ToList().FindIndex(r => r.Id == id);
             if (i == -1)
                 return;
-            RemoveRow(_rows[i]);
+            RemoveAtRow(i);
         }
 
         public virtual void RemoveAtRow(int i)
         {
-            RemoveRow(_rows[i]);
+            if (i < 0)
+                return;
+            if (i >= _rows.Count)
+                return;
+            if (_rows.Count == 0)
+                return;
+
+            _rowDefinition.RemoveRowCtrl(_rows[i]);
+            _rows.RemoveAt(i);
         }
 
         public virtual void Clear()
@@ -79,10 +88,9 @@ namespace ALEControlLibrary.CTRL
 
         protected virtual void UpdateUI(ALEColControl colControl) { }
 
-        // Code not used
         internal virtual void SetMaxRow(int n)
         {
-            if (Count> 0)
+            if (RowCount> 0)
                 Clear();
             for (int i = 0; i < n; i++)
             {
@@ -118,6 +126,8 @@ namespace ALEControlLibrary.CTRL
 
             UpdateUI(col);
         }
+
+        protected internal void Fire_RefreshGrigView() => RefreshGrigView?.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -126,11 +136,12 @@ namespace ALEControlLibrary.CTRL
 
     public abstract class ALERowVirtualCollection<TData> : ALERowCollection where TData : class
     {
+
         protected List<TData> _datas= new List<TData>();
 
         protected int _indexStartData = 0;
 
-        public int IndexStartData { get => _indexStartData; set { _indexStartData = value; } }
+        public int IndexStartData { get => _indexStartData; set { _indexStartData = value; UpdateDataToUI(); } }
 
         // constructor
         protected ALERowVirtualCollection(ALERowDefinition rowDefinition) : base(rowDefinition)
@@ -151,12 +162,18 @@ namespace ALEControlLibrary.CTRL
             if (row.Index < 0 || row.Index > _datas.Count) 
                 return;
 
-            UpdateUIToData(row, _datas[row.Index]);
+           UpdateUIToData(row, _datas[row.Index]);
         }
 
         public virtual void AddData(TData data)
         {
             _datas.Add(data);
+            UpdateDataToUI();
+        }
+        
+        public virtual void AddRangeData(IEnumerable<TData> datas)
+        {
+            _datas.AddRange(datas);
             UpdateDataToUI();
         }
 
@@ -189,7 +206,7 @@ namespace ALEControlLibrary.CTRL
 
         protected void UpdateDataToUI()
         {
-            for (int i = 0; i <  Count; i++)
+            for (int i = 0; i <  RowCount; i++)
             {
                 ALERow row = GetRow(i);
                 if (_indexStartData+i>=0 && _indexStartData + i < _datas.Count)
@@ -197,15 +214,18 @@ namespace ALEControlLibrary.CTRL
                     row.IsVisible= true;
                     row.Index = _indexStartData+i;
                     TData d = _datas[_indexStartData + i];
+                    row.IsSettingValues= true;
                     UpdateDataToUI(row, d);
+                    row.Invalidate();
+                    row.IsSettingValues= false;
                 }
                 else
                 {
                     row.Index = -1;
                     row.IsVisible= false;
                 }
-
             }
+            Fire_RefreshGrigView();
         }
 
         /// <summary>
@@ -221,6 +241,6 @@ namespace ALEControlLibrary.CTRL
         /// <param name="colControl"></param>
         /// <param name="data"></param>
         protected abstract void UpdateUIToData(ALERow colControl, TData data);
-        protected abstract void UpdateUI (ALEColControl colControl);
+        protected override void UpdateUI (ALEColControl colControl) { }
     }
 }

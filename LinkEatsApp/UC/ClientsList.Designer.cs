@@ -189,13 +189,10 @@
             this.aleGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.aleGridView1.BorderSize = 2;
             this.aleGridView1.GridLineSize = 1;
             this.aleGridView1.IsDebug = false;
             this.aleGridView1.Location = new System.Drawing.Point(255, 74);
             this.aleGridView1.Name = "aleGridView1";
-            this.aleGridView1.RoundedTag = ALEControlLibrary.ERoundedTag.None;
-            this.aleGridView1.RoundedType = ALEControlLibrary.ERoundedType.Left;
             this.aleGridView1.Size = new System.Drawing.Size(839, 784);
             this.aleGridView1.TabIndex = 7;
             // 
