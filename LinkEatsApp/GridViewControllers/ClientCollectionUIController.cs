@@ -65,10 +65,12 @@ namespace LinkEatsApp.GridViewControllers
                         colRButton.BorderSize = 2;
                         colRButton.Radius = 15;
                         colRButton.PourcentBack = 0.7f;
-                        colRButton.BackgroundImage = Resources.Edit_tresclair;
-                        colControl.BackgroundImageLayout = ImageLayout.Zoom;
-                        colRButton.IsAutoActivable = false;
                         colRButton.IsClickable = true;
+                        colRButton.IsAutoActivable = false;
+                        if (colControl.BackgroundImage == IMG_EDIT)
+                            return;
+                        colControl.BackgroundImageLayout = ImageLayout.Zoom;
+                        colRButton.BackgroundImage = IMG_EDIT;
                     }
                     break;
                 default:
