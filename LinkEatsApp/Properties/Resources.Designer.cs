@@ -201,6 +201,16 @@ namespace LinkEatsApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fixed_loading {
+            get {
+                object obj = ResourceManager.GetObject("fixed_loading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon linkEats {
@@ -424,6 +434,16 @@ namespace LinkEatsApp.Properties {
         internal static System.Drawing.Bitmap restoIcon {
             get {
                 object obj = ResourceManager.GetObject("restoIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rotate_loading {
+            get {
+                object obj = ResourceManager.GetObject("rotate_loading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

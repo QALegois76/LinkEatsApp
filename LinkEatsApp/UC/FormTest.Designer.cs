@@ -39,6 +39,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.aleScrollBar1 = new ALEControlLibrary.ALEScrollBar();
             this.aleGridView1 = new ALEControlLibrary.CTRL.ALEGridView();
+            this.aleWaitingControl1 = new ALEControlLibrary.CTRL.ALEWaitingControl();
             this.SuspendLayout();
             // 
             // label3
@@ -153,11 +154,31 @@
             this.aleGridView1.Size = new System.Drawing.Size(694, 636);
             this.aleGridView1.TabIndex = 0;
             // 
+            // aleWaitingControl1
+            // 
+            this.aleWaitingControl1.Angle = -240F;
+            this.aleWaitingControl1.GapX = 5;
+            this.aleWaitingControl1.GapY = 5;
+            this.aleWaitingControl1.ImageFixed = global::LinkEatsApp.Properties.Resources.fixed_loading;
+            this.aleWaitingControl1.ImageRotated = global::LinkEatsApp.Properties.Resources.rotate_loading;
+            this.aleWaitingControl1.IncrementAnge = -10F;
+            this.aleWaitingControl1.IsFixed = true;
+            this.aleWaitingControl1.IsRunning = true;
+            this.aleWaitingControl1.Location = new System.Drawing.Point(735, 392);
+            this.aleWaitingControl1.Name = "aleWaitingControl1";
+            this.aleWaitingControl1.PourcentImgFixed = 0.5F;
+            this.aleWaitingControl1.PourcentImgRotated = 1F;
+            this.aleWaitingControl1.RefreshTime = 50;
+            this.aleWaitingControl1.Size = new System.Drawing.Size(238, 192);
+            this.aleWaitingControl1.TabIndex = 11;
+            this.aleWaitingControl1.Text = "aleWaitingControl1";
+            // 
             // FormTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(985, 636);
+            this.Controls.Add(this.aleWaitingControl1);
             this.Controls.Add(this.aleScrollBar1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tb_id);
@@ -189,5 +210,6 @@
         private Button button1;
         private ALEControlLibrary.ALEScrollBar aleScrollBar1;
         private ALEControlLibrary.CTRL.ALEGridView aleGridView1;
+        private ALEControlLibrary.CTRL.ALEWaitingControl aleWaitingControl1;
     }
 }

@@ -31,9 +31,6 @@ namespace LinkEatsApp.UC
 
             tb_id.Text = Guid.NewGuid().ToString();
 
-            ALERoundedPanel roundedPanel = new ALERoundedPanel();
-            this.Controls.Add(roundedPanel);
-            roundedPanel.Location = new Point(740, 300);
         }
 
         private void btn_random_Click(object sender, EventArgs e)

@@ -21,8 +21,8 @@ namespace LinkEatsApp
 
             mainFormController= new MainFormController(mainForm, DatabaseMng.Instance);
 
-            Application.Run(mainForm);
-            //Application.Run(new FormTest());
+            //Application.Run(mainForm);
+            Application.Run(new FormTest());
         }
     }
 }
