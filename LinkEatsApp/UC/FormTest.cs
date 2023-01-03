@@ -30,6 +30,10 @@ namespace LinkEatsApp.UC
             aleGridView1.RowCollection = dataCollection;
 
             tb_id.Text = Guid.NewGuid().ToString();
+
+            ALERoundedPanel roundedPanel = new ALERoundedPanel();
+            this.Controls.Add(roundedPanel);
+            roundedPanel.Location = new Point(740, 300);
         }
 
         private void btn_random_Click(object sender, EventArgs e)
@@ -57,13 +61,12 @@ namespace LinkEatsApp.UC
             tb_id.Text = Guid.NewGuid().ToString();
 
             aleScrollBar1.Minimum = 0;
-            aleScrollBar1.Maximum = 100 - dataCollection.RowCount;
-            aleScrollBar1.Value = 0;
+            aleScrollBar1.Maximum = dataCollection.DataCount - dataCollection.RowCount+2;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dataCollection.Clear();
+            dataCollection.ClearData();
             List<TestData> list = new List<TestData>();
             for (int i = 0; i < 100; i++)
             {
@@ -77,7 +80,7 @@ namespace LinkEatsApp.UC
             dataCollection.AddRangeData(list);
 
             aleScrollBar1.Minimum = 0;
-            aleScrollBar1.Maximum = 100 - dataCollection.RowCount+2;
+            aleScrollBar1.Maximum = dataCollection.DataCount - dataCollection.RowCount+2;
             aleScrollBar1.Value= 0;
         }
 
@@ -110,14 +113,14 @@ namespace LinkEatsApp.UC
             rowDefinition.AddColDef(new ALEColDefinitionLabel(ECol.Id.ToString()) { IsAbsolute = false, ColWidth = 40 });
             rowDefinition.AddColDef(new ALEColDefinitionTextbox(ECol.Name.ToString()) { IsAbsolute = false, ColWidth = 20 });
             rowDefinition.AddColDef(new ALEColDefinitionTextbox(ECol.Lastname.ToString()) { IsAbsolute = false, ColWidth = 20 });
-            rowDefinition.AddColDef(new ALEColDefinitionRoundedButon(ECol.Delete.ToString()) { IsAbsolute = true, ColWidth = 50 });
+            rowDefinition.AddColDef(new ALEColDefinitionButon(ECol.Delete.ToString()) { IsAbsolute = true, ColWidth = 50 });
         }
 
         protected override void UpdateUI(ALEColControl colControl)
         {
 
-            colControl.ControlBackColor = ALEToolsUtility.AyoBackGray1;
-            colControl.ControlForeColor = ALEToolsUtility.AyoLightGray;
+            colControl.BackColor = ALEToolsUtility.AyoBackGray1;
+            colControl.ForeColor = ALEToolsUtility.AyoLightGray;
 
             ECol col;
             if (!Enum.TryParse(colControl.IdCol, out col))
@@ -128,11 +131,11 @@ namespace LinkEatsApp.UC
                 case ECol.Selection:
                     break;
                 case ECol.Id:
-            colControl.ControlFont = new Font("Segoe UI", 8);
+            colControl.Font = new Font("Segoe UI", 8);
                     break;
                 case ECol.Name:
                 case ECol.Lastname:
-            colControl.ControlFont = new Font("Segoe UI", 11);
+            colControl.Font = new Font("Segoe UI", 11);
                     break;
                 case ECol.Delete:
                     break;
@@ -145,19 +148,19 @@ namespace LinkEatsApp.UC
         protected override void UpdateDataToUI(ALERow row, TestData data)
         {
 
-            row.GetCol(ECol.Id.ToString()).ControlText = data.Guid.ToString();
-            row.GetCol(ECol.Name.ToString()).ControlText = data.Name.ToString();
+            row.GetCol(ECol.Id.ToString()).Text = data.Guid.ToString();
+            row.GetCol(ECol.Name.ToString()).Text = data.Name.ToString();
 
             string lstNm = data.LastName;
             ALEColControl colC = row.GetCol(ECol.Lastname.ToString());
-            colC.ControlText = lstNm;
-            row.GetCol(ECol.Lastname.ToString()).ControlText = data.LastName.ToString();
+            colC.Text = lstNm;
+            row.GetCol(ECol.Lastname.ToString()).Text = data.LastName.ToString();
         }
 
         protected override void UpdateUIToData(ALERow colControl, TestData data)
         {
-            data.Name = colControl.GetCol(ECol.Name.ToString()).ControlText;
-            data.LastName = colControl.GetCol(ECol.Lastname.ToString()).ControlText;
+            data.Name = colControl.GetCol(ECol.Name.ToString()).Text;
+            data.LastName = colControl.GetCol(ECol.Lastname.ToString()).Text;
         }
     }
 

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace ALEControlLibrary
 {
-    [DefaultEvent(nameof(SelctedIndexChanged))]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
     public class ALEComboBox : UserControl
     {
-        public event EventHandler<EventArgs<int>> SelctedIndexChanged;
+        public event EventHandler<EventArgs<int>> SelectedIndexChanged;
 
         // class which handle the form
         private class ALEComboBoxForm : Form
@@ -62,6 +62,7 @@ namespace ALEControlLibrary
                 _bBack = new SolidBrush(BackColor);
 
                 this.FormBorderStyle= FormBorderStyle.None;
+                this.AutoScaleMode = AutoScaleMode.None;
 
                 UpdateRegion();
                 _indexMouse = -1;
@@ -180,7 +181,7 @@ namespace ALEControlLibrary
                     Rectangle r = new Rectangle(2, i* (height  + GAP_TEXT)+ _borderSize, Width-2*_borderSize, height);
                     _items.Add(new Tuple<string, Rectangle>(options[i], r));
                 }
-                this.Height = (_items.Count-1)*(_gapText + height)+2*_borderSize + GAP_ANTI_ALLIAS;
+                this.Height =_items.Last().Item2.Y + _items.Last().Item2.Height + 2*(_borderSize + GAP_ANTI_ALLIAS);
                 Invalidate();
             }
 
@@ -440,6 +441,7 @@ namespace ALEControlLibrary
             _isDropDown = false;
             _selectedIndex = _form.SelectedIndex;
             Refresh();
+            SelectedIndexChanged?.Invoke(this, new EventArgs<int>(_selectedIndex));
         }
 
 
@@ -448,6 +450,12 @@ namespace ALEControlLibrary
         {
             _items.Add(new Tuple<string, object>(optionName, value));
         }
+
+        public void AddRange(IEnumerable<Tuple<string,object>> items)
+        {
+            _items.AddRange(items);
+        }
+
 
         public void Remove(string optionName)
         {

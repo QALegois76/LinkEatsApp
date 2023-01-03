@@ -142,6 +142,9 @@
   <data name="Edit_tresclair" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\edit_tresclair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Edit_tresclair_75px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\edit_tresclair_75px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Etoiles_pleines" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\etoiles_pleines.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="Etoiles_vides" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\etoiles_vides.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Filtre_Empty_tresclair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\filtre_empty_tresclair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Filtre_tresclair" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\filtre_tresclair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

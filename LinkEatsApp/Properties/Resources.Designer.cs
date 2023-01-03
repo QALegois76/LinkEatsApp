@@ -143,6 +143,16 @@ namespace LinkEatsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Edit_tresclair_75px {
+            get {
+                object obj = ResourceManager.GetObject("Edit_tresclair_75px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Etoiles_pleines {
             get {
                 object obj = ResourceManager.GetObject("Etoiles_pleines", resourceCulture);
@@ -166,6 +176,16 @@ namespace LinkEatsApp.Properties {
         internal static System.Drawing.Bitmap Etoiles_vides {
             get {
                 object obj = ResourceManager.GetObject("Etoiles_vides", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Filtre_Empty_tresclair {
+            get {
+                object obj = ResourceManager.GetObject("Filtre_Empty_tresclair", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

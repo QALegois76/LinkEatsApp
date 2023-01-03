@@ -29,8 +29,6 @@ namespace LinkEatsApp
         public event EventHandler UserChangePassword;
 
         // members
-        private bool _isModified = false;
-
         private int _xpCurent = -1;
         private int _xpNextLevel = -1;
 
@@ -47,8 +45,8 @@ namespace LinkEatsApp
         public string LastNameClient { get => tb_lastName.Text; set => tb_lastName.Text = value; }
         public string IdUser { get => tb_id.Text; set => tb_id.Text = value; }
         public string LoginUser { get => tb_login.Text; set => tb_login.Text = value; }
-        public string EmailClient { get => tb_mail.Text; set => tb_mail.Text = value; }
-        public string PhoneClient { get => tb_phone.Text; set => tb_phone.Text = value; }
+        public string EmailUser { get => tb_mail.Text; set => tb_mail.Text = value; }
+        public string PhoneUser { get => tb_phone.Text; set => tb_phone.Text = value; }
         public string TitleForm { get => this.Title; set => this.Title = value; }
 
         public DateTime CreatedAt { get => DateTime.Parse(lb_createdAt_value.Text); set => lb_createdAt_value.Text = value.ToString(); }
@@ -90,7 +88,7 @@ namespace LinkEatsApp
             {
                 tb_phone.ForeColor= ALEToolsUtility.AyoLightGray;
             }
-            _isModified= true;
+            rbtn_save.Enabled = true;
         }
 
         private void tb_mail_TextChanged(object sender, EventArgs e)
@@ -103,12 +101,12 @@ namespace LinkEatsApp
             {
                 tb_mail.ForeColor = ALEToolsUtility.AyoLightGray;
             }
-            _isModified= true;
+            rbtn_save.Enabled = true;
         }
 
         private void tb_lastName_TextChanged(object sender, EventArgs e)
         {
-            _isModified= true;
+            rbtn_save.Enabled = true;
         }
 
 
@@ -116,8 +114,12 @@ namespace LinkEatsApp
         {
             MessageBox.Show("TO DO");
         }
-        
-        private void rbtn_save_Click(object sender, EventArgs e) => UserSaved?.Invoke(this, EventArgs.Empty);
+
+        private void rbtn_save_Click(object sender, EventArgs e)
+        {
+            UserSaved?.Invoke(this, EventArgs.Empty);
+            rbtn_save.Enabled = false;
+        }
 
         private void rbtn_pwd_Click(object sender, EventArgs e) => UserChangePassword?.Invoke(this, EventArgs.Empty);
         

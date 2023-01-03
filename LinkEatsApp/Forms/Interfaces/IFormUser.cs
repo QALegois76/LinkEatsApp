@@ -9,7 +9,7 @@
 
         public string IdUser { get; set; }
         public string LoginUser { get; set; }
-        public string EmailClient { get; set; }
-        public string PhoneClient { get; set; }
+        public string EmailUser { get; set; }
+        public string PhoneUser { get; set; }
     }
 }

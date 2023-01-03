@@ -9,6 +9,7 @@ namespace ConsoleAppEntityFramework.Models
 
         public string UserLogin { get; set; }
         public string UserEmail { get; set; }
+        public string UserPhone { get; set; }
         public string UserPassword { get; set; }
 
         public ERole UserRole { get; set; }

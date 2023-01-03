@@ -2,11 +2,13 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace ConsoleAppEntityFramework
 {
     public abstract class EntityMng<T> where T : class
 	{
+		internal event EventHandler OnSaveData;
 		protected DbSet<T> _set;
 
 		public EntityMng(DbSet<T> set)
@@ -22,7 +24,9 @@ namespace ConsoleAppEntityFramework
 		public virtual bool Contains(T entity) => _set.Contains(entity);
 		public abstract bool ContainsId(Guid id);
 		public abstract T GetByID (Guid id);
+		public virtual T GetAt(int i) => _set.ToArray()[i];
 		public T[] GetAll() => _set.ToArray();
+		public void SaveData()=> OnSaveData?.Invoke(this, EventArgs.Empty);
 	}
 }
 

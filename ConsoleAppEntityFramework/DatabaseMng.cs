@@ -36,7 +36,14 @@ namespace ConsoleAppEntityFramework
 			_orderMng = new OrderMng(_context.Orders);
 			_discountMng = new DiscountMng(_context.Discounts);
 
+			_clientMng.OnSaveData += EntityMng_OnSaveData;
+			_restaurantMng.OnSaveData += EntityMng_OnSaveData;
+			_deliveryMng.OnSaveData += EntityMng_OnSaveData;
+			_orderMng.OnSaveData += EntityMng_OnSaveData;
+			_discountMng.OnSaveData += EntityMng_OnSaveData;
 		}
+
+		private void EntityMng_OnSaveData(object? sender, EventArgs e) => Save();
 
 		public void Save() => _context.SaveChanges();
 

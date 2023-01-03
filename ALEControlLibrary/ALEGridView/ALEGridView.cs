@@ -23,6 +23,7 @@ namespace ALEControlLibrary.CTRL
         private int _indexLinColSelected = -1;
         private int _cornerRadius = 15;
         private int _gapYRow = 5;
+        private int _gapXRow = 5;
         //private int _borderSize = 2;
         private int _lineSize = 1;
 
@@ -47,7 +48,8 @@ namespace ALEControlLibrary.CTRL
         //public int BorderSize { get => _borderSize; set { _borderSize = value; RegenBrushes(); RegenRegion(); Invalidate(); } }
         public int GridLineSize { get => _lineSize; set { _lineSize = value; RegenBrushes(); Invalidate(); } }
         public int CornerRadius { get => _cornerRadius; set { _cornerRadius = value; RegenBrushes(); Invalidate(); } }
-        public int GapRow { get => _gapYRow; set { _gapYRow = value; Invalidate(); } }
+        public int GapYRow { get => _gapYRow; set { _gapYRow = value; Invalidate(); } }
+        public int GapXRow { get => _gapXRow; set { _gapXRow = value; Invalidate(); } }
         //public ERoundedType RoundedType { get => _roundedType; set { _roundedType = value; RegenRegion(); Invalidate(); } }
         //public ERoundedTag RoundedTag { get => _roundedTag; set { _roundedTag = value; RegenRegion(); Invalidate(); } }
 
@@ -104,9 +106,15 @@ namespace ALEControlLibrary.CTRL
 
         public void ReBuildGridView()
         {
+            SuspendLayout();
             RegenBrushes();
             RegenRowCol();
             RegenRowData();
+            for(int i = 0; i <  _rowCollection.RowCount; i++)
+            {
+                _rowCollection.GetRow(i).Invalidate();
+            }
+            ResumeLayout();
             Invalidate();
         }
 
@@ -146,7 +154,7 @@ namespace ALEControlLibrary.CTRL
 
         private void RegenRowCol()
         {
-            int posCol = 0;
+            int posCol = GapXRow;
             foreach (ALEColDefinitionBase colDef in _rowDefinition.ColDefinitions)
             {
                 colDef.Position =  posCol;
@@ -232,8 +240,8 @@ namespace ALEControlLibrary.CTRL
                     continue;
 
                 Rectangle rect = new Rectangle();
-                rect.X = 0;
-                rect.Width = Width;
+                rect.X = _gapXRow;
+                rect.Width = Width - 2*_gapXRow;
                 rect.Y = (i+1) * _rowDefinition.Height+_gapYRow;
                 rect.Height = _rowDefinition.Height-2*_gapYRow;
                 GraphicsPath gpRow = ALEDrawingHelper.GenerateBorder(ERoundedType.All, _cornerRadius, rect, _lineSize);
@@ -274,7 +282,7 @@ namespace ALEControlLibrary.CTRL
             if (isAbsolute)
                 return (int)value;
             else
-                return (int)((value / 100f) * (float) Width);
+                return (int)((value / 100f) * (float) (Width - 2* _gapXRow) );
         }
 
 

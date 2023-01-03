@@ -70,6 +70,24 @@ namespace ALEControlLibrary
         {
             InitializeComponent();
             DoubleBuffered = true;
+
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.ContainerControl, true);
+            this.SetStyle(ControlStyles.Opaque, true);
+            this.SetStyle(ControlStyles.Selectable, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
+            this.SetStyle(ControlStyles.StandardClick, true);
+            this.SetStyle(ControlStyles.UserMouse, true);
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            this.SetStyle(ControlStyles.FixedWidth, false);
+            this.SetStyle(ControlStyles.FixedHeight, false);
+            this.SetStyle(ControlStyles.StandardDoubleClick, true);
+            this.SetStyle(ControlStyles.CacheText, false);
+            this.SetStyle(ControlStyles.EnableNotifyMessage, false);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.UseTextForAccessibility, false);
+
             Init();
         }
 
@@ -116,54 +134,13 @@ namespace ALEControlLibrary
 
             if (BackgroundImage == null)
                 return;
-            e.Graphics.Clear(GetCurrentBackColor());
 
-            float ratioWH_img = (float)BackgroundImage.Width / (float)BackgroundImage.Height;
-            float ratioWH_ctrl = (float)this.Width / (float)this.Height;
-
-            switch (this.BackgroundImageLayout)
-            {
-                case ImageLayout.Tile:
-                case ImageLayout.Center:
-                case ImageLayout.Zoom:
-                    SizeF size;
-                    if (ratioWH_img >= 1)
-                    // img Horizontal
-                    {
-                        if (ratioWH_ctrl >= ratioWH_img)
-                        // limit by height
-                        {
-                            size = new SizeF((float)this.Height * ratioWH_img, this.Height);
-                        }
-                        else
-                        {
-                            size = new SizeF((float)this.Width, this.Width / ratioWH_img);
-                        }
-                    }
-                    else
-                    // img Vertical
-                    {
-                        if (ratioWH_ctrl <= ratioWH_img)
-                        {
-                            size = new SizeF((float)this.Width, this.Width / ratioWH_img);
-                        }
-                        else
-                        {
-                            size = new SizeF((float)this.Height * ratioWH_img, this.Height);
-                        }
-                    }
-                    TextureBrush tBrush = new TextureBrush(BackgroundImage);
-                    tBrush.TranslateTransform((Width - size.Width) / 2f, (size.Height - Height) / 2f);
-                    tBrush.ScaleTransform(size.Width / BackgroundImage.Width, size.Height / BackgroundImage.Height);
-                    e.Graphics.FillRectangle(tBrush, new RectangleF(new PointF((Width - size.Width) / 2f, (size.Height - Height) / 2f), size));
-                    break;
-
-                case ImageLayout.Stretch:
-                case ImageLayout.None:
-                default:
-                    e.Graphics.DrawImage(BackgroundImage, new RectangleF(0f, 0f, (float)Width, (float)Height).ToRectangle()); ;
-                    break;
-            }
+            SizeF sImg = this.Size.GetBestFitSize(BackgroundImage.Size);
+            RectangleF rect = new RectangleF();
+            rect.Size = sImg;
+            rect.Location = new PointF(((float)Width - (float)rect.Width) / 2f, ((float)Height - (float)rect.Height) / 2f);
+            rect = this.ReZoom(rect, _pourcentZoomBack);
+            e.Graphics.DrawImage(BackgroundImage, rect);
         }
 
         protected override void OnResize(EventArgs eventargs)
@@ -345,15 +322,15 @@ namespace ALEControlLibrary
             base.OnMouseLeave(e);
         }
 
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            pnl.Controls.Add(e.Control);
-        }
+        //protected override void OnControlAdded(ControlEventArgs e)
+        //{
+        //    pnl.Controls.Add(e.Control);
+        //}
 
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            pnl.Controls.Remove(e.Control);
-        }
+        //protected override void OnControlRemoved(ControlEventArgs e)
+        //{
+        //    pnl.Controls.Remove(e.Control);
+        //}
 
         #endregion
 
@@ -374,7 +351,9 @@ namespace ALEControlLibrary
             // 
             // ALERoundedPanel
             // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             base.Controls.Add(this.pnl);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(166)))), ((int)(((byte)(148)))));
             this.Name = "ALERoundedPanel";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.ResumeLayout(false);

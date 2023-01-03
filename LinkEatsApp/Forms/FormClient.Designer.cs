@@ -502,7 +502,6 @@
             this.Controls.Add(this.lb_lastName);
             this.Controls.Add(this.tb_firstName);
             this.Controls.Add(this.tb_lastName);
-            this.IsWindowStateFixed = false;
             this.Name = "FormClient";
             this.Text = "FormClient";
             this.Controls.SetChildIndex(this.tb_lastName, 0);

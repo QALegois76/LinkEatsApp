@@ -65,7 +65,7 @@ namespace ALEControlLibrary.CTRL
             _rows.RemoveAt(i);
         }
 
-        public virtual void Clear()
+        internal virtual void ClearRow()
         {
             List<Guid> guids = new List<Guid>(_rows.Count);
             _rows.ToList().ForEach(r => guids.Add(r.Id));
@@ -91,7 +91,7 @@ namespace ALEControlLibrary.CTRL
         internal virtual void SetMaxRow(int n)
         {
             if (RowCount> 0)
-                Clear();
+                ClearRow();
             for (int i = 0; i < n; i++)
             {
                 ALERow row = AddRow();
@@ -111,7 +111,7 @@ namespace ALEControlLibrary.CTRL
 
         protected void FireItemChenged(object? sender, ALEGridViewChengedEventArgs e) => ItemChanged?.Invoke(sender, e);
         
-        protected void Row_UIInvalidated(object? sender, ALEGridViewChengedEventArgs e)
+        protected virtual void Row_UIInvalidated(object? sender, ALEGridViewChengedEventArgs e)
         {
             if (e.Index < 0 || e.Index >= _rows.Count)
                 return;
@@ -141,6 +141,7 @@ namespace ALEControlLibrary.CTRL
 
         protected int _indexStartData = 0;
 
+        public int DataCount => _datas.Count;
         public int IndexStartData { get => _indexStartData; set { _indexStartData = value; UpdateDataToUI(); } }
 
         // constructor
@@ -189,7 +190,7 @@ namespace ALEControlLibrary.CTRL
             UpdateDataToUI();
         }
 
-        public virtual void Clear()
+        public virtual void ClearData()
         {
             _datas.Clear();
             UpdateDataToUI();
@@ -203,6 +204,23 @@ namespace ALEControlLibrary.CTRL
             return _datas[i];
         }
 
+
+        protected override void Row_UIInvalidated(object? sender, ALEGridViewChengedEventArgs e)
+        {
+            // we are in virtual list, the index does'nt correspond to the index of the rwo but of the data
+            if (e.Index - _indexStartData < 0 || e.Index - _indexStartData >= _rows.Count-1)
+                return;
+
+            var row = _rows[e.Index - _indexStartData];
+            if (row == null)
+                return;
+
+            var col = row.GetCol(e.ColTitle);
+            if (col == null)
+                return;
+
+            UpdateUI(col);
+        }
 
         protected void UpdateDataToUI()
         {
@@ -240,7 +258,7 @@ namespace ALEControlLibrary.CTRL
         /// </summary>
         /// <param name="colControl"></param>
         /// <param name="data"></param>
-        protected abstract void UpdateUIToData(ALERow colControl, TData data);
+        protected abstract void UpdateUIToData(ALERow row, TData data);
         protected override void UpdateUI (ALEColControl colControl) { }
     }
 }

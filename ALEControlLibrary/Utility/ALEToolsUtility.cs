@@ -10,7 +10,8 @@ namespace ALEControlLibrary
     {
         #region VARRIBALES
         private static Color _ayoYellow = Color.FromArgb(252, 192, 0);
-        private static Color _ayoLightGray = Color.FromArgb(180, 166, 148);
+        //private static Color _ayoLightGray = Color.FromArgb(180, 166, 148);
+        private static Color _ayoLightGray = Color.FromArgb(211,223,237);
         private static Color _ayoDarkGray = Color.FromArgb(25, 29, 31);
         private static Color _ayoMiddleGray = Color.FromArgb(255, 50, 58, 63);
         private static Color _ayoGray = Color.FromArgb(75, 87, 95);

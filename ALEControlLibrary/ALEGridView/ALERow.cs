@@ -24,7 +24,7 @@
             set
             {
                 _isVisible = value;
-                _rowCtrls.ToList().ForEach(col => col.Value.ControlVisible = value);
+                _rowCtrls.ToList().ForEach(col => col.Value.Visible = value);
             }
         }
 

@@ -1,5 +1,5 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using System.Net;
+using System.Net.Mail;
 using System.Windows.Forms;
 
 namespace LinkEatsApp
@@ -11,55 +11,56 @@ namespace LinkEatsApp
         private static MailMng _instance;
         public static MailMng Instance => _instance ?? (_instance = new MailMng());
 
-        private MailAddress fromAddress = new MailAddress("antoine.legois@viacesi.fr", "LinkEats");
-        private MailAddress toAddress = new MailAddress("qalegois@gmail.com", "Antoine LEGOIS");
-        const string fromPassword = "CESI_Legois!2022*";
+        private MailAddress fromAddress = new MailAddress("linkeats@outlook.fr", "LinkEats");
+        private MailAddress toAddress = new MailAddress("antoine.legois@viacesi.fr", "Antoine LEGOIS");
+
+        const string userLogin = "linkeats@outlook.fr";
+        const string userPassword = "lickit8=D";
+        const string destMail = "antoine.legois@viacesi.fr";
+
         const string subject = "WELCOME TO LINKEATS";
         const string body = "Thanks to create an account in the new beta service LinkEats\nWe hoppe you will find everythinks you search for";
 
-        private SmtpClient smtp;
+        //private SmtpClient smtp;
 
         private MailMng()
         {
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(fromAddress.Address, fromPassword);
-
-
-            //using (var message = new MailMessage(fromAddress, toAddress)
-            //{
-            //    Subject = subject,
-            //    Body = body
-            //})
-
-            //{
-            //    smtp.Send(message);
-            //}
         }
 
 
-        public void SendMessageTo(string destMail,string dest)
+        //public void SendMessageTo(string destMail,string dest)
+        public void SendMessageTo()
         {
-            MailAddress destMAilAddress = new MailAddress(destMail, dest);
-            MailMessage message = new MailMessage(fromAddress, destMAilAddress );
-            message.Subject = subject;
-            message.Body = body;
-
-            smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.UseDefaultCredentials = true;
-            smtp.Credentials = new NetworkCredential(fromAddress.Address, fromPassword);
-
-            smtp.Send(message);
+            Thread t = new Thread(() => SendMessage());
+            t.Start();
         }
 
+
+        private void SendMessage()
+        {
+            try
+            {
+                MailMessage message = new MailMessage("linkeats@outlook.fr", "antoine.legois@viacesi.fr");
+                message.Subject = subject;
+                message.Body = body;
+                message.IsBodyHtml = false;
+                message.From = fromAddress;
+
+                SmtpClient smtpC = new SmtpClient("smtp.office365.com", 587);
+                smtpC.Credentials = new NetworkCredential("linkeats@outlook.fr", "lickit8=D");
+                smtpC.Timeout = 60000;
+                smtpC.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpC.EnableSsl = true;
+
+                smtpC.Send(message);
+
+                MessageBox.Show("Mail send succesful !");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error : send email wasn't successful");
+            }
+        }
 
 
 

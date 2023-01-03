@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 namespace ALEControlLibrary.CTRL
 {
+    [DefaultEvent(nameof(TextChanged))]
     public partial class ALERoundedTextbox : UserControl
     {
         private const int PIX_GAP_ANTI_ALLIAS = 1;
@@ -223,7 +224,7 @@ namespace ALEControlLibrary.CTRL
             _pFore.StartCap = LineCap.Round;
             _pFore.EndCap = LineCap.Round;
 
-            if (tb.Focused && Enabled && Focused && !ReadOnly)
+            if (tb.Focused && Enabled && !ReadOnly)
             {
                 Point pOrigin = new Point(this.Width/2,_borberSize+ tb.Location.Y + tb.Height + (this.Height - tb.Location.Y - tb.Height - _cornerRadius)/2);
                 Vector2 vOrigin = pOrigin.ToVector2();

@@ -1,14 +1,14 @@
 ﻿namespace ALEControlLibrary.CTRL
 {
-    public class ALEColDefinitionRoundedButon : ALEColDefinitionBase
+    public class ALEColDefinitionButon : ALEColDefinitionBase
     {
-        public ALEColDefinitionRoundedButon(string title) : base(title)
+        public ALEColDefinitionButon(string title) : base(title)
         {
         }
 
         public override ALEColControl CreateALEControl()
         {
-            ALERoundedButton button = new ALERoundedButton();
+            Button button = new Button();
             return new ALEColButton(Title, button);
         }
     }

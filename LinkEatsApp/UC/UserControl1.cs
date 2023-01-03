@@ -52,7 +52,7 @@ namespace LinkEatsApp
             client.UserRegistreryToken.RegistreryTokenExpiredDate= DateTime.Now;
             databaseMng.Clients.Add(client);
             databaseMng.Save();
-            MailMng.Instance.SendMessageTo(client.UserEmail, client.ClientFirstName + " " + client.ClientLastName);
+            //MailMng.Instance.SendMessageTo(client.UserEmail, client.ClientFirstName + " " + client.ClientLastName);
             UpdateClients();
         }
 

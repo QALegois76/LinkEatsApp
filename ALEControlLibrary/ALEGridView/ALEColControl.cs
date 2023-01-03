@@ -20,12 +20,17 @@
         internal Control Control => _control;
         internal bool IsSettingValues { get => _isSettingValues; set =>  _isSettingValues = value;}
         
-        public bool ControlEnable { get => _control.Enabled; set=> _control.Enabled = value; }
-        public bool ControlVisible { get => _control.Visible; set=> _control.Visible = value; }
-        public Font ControlFont { get => _control.Font; set => _control.Font = value; }
-        public Color ControlForeColor { get => _control.ForeColor; set => _control.ForeColor = value; }
-        public Color ControlBackColor { get => _control.BackColor; set => _control.BackColor = value;  }
-        public string ControlText { get => _control.Text; set => _control.Text = value;  }
+        public bool Enable { get => _control.Enabled; set=> _control.Enabled = value; }
+        public bool Visible { get => _control.Visible; set=> _control.Visible = value; }
+        public string Text { get => _control.Text; set => _control.Text = value;  }
+
+        public ImageLayout BackgroundImageLayout { get => _control.BackgroundImageLayout; set => _control.BackgroundImageLayout = value; }
+
+        public Color ForeColor { get => _control.ForeColor; set => _control.ForeColor = value; }
+        public Color BackColor { get => _control.BackColor; set => _control.BackColor = value;  }
+        
+        public Image BackgroundImage { get => _control.BackgroundImage; set => _control.BackgroundImage = value; }
+        public Font Font { get => _control.Font; set => _control.Font = value; }
         
         public string IdCol => _idCol;
         

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace LinkEatsApp.UC
 {
-    public partial class ClientsList : UserControl
+    public partial class MainMenu : UserControl
     {
-        public ClientsList()
+        public MainMenu()
         {
             InitializeComponent();
-        }
-
-        private void ClientsList_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

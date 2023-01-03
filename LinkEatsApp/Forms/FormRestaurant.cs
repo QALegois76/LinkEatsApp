@@ -30,8 +30,8 @@ namespace LinkEatsApp.Forms
         public string TitleForm { get => this.Title; set => this.Title = value; }
         public string IdUser { get => tb_id.Text; set => tb_id.Text = value; }
         public string LoginUser { get => tb_login.Text; set => tb_login.Text = value; }
-        public string EmailClient { get => tb_mail.Text; set => tb_mail.Text = value; }
-        public string PhoneClient { get => tb_phone.Text; set => tb_phone.Text = value; }
+        public string EmailUser { get => tb_mail.Text; set => tb_mail.Text = value; }
+        public string PhoneUser { get => tb_phone.Text; set => tb_phone.Text = value; }
 
         public string RestaurantSiret { get => tb_siret.Text; set => tb_siret.Text = value; }
         public string RestaurantSiren { get => tb_siren.Text; set => tb_siren.Text = value; }

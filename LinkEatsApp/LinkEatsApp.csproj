@@ -16,8 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.Email" Version="22.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Spire.Email" Version="5.8.0" />
   </ItemGroup>
 
   <ItemGroup>

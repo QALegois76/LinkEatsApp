@@ -27,8 +27,8 @@ namespace LinkEatsApp
         public string FirstNameClient { get => tb_firstName.Text; set => tb_firstName.Text = value; }
         public string LastNameClient { get => tb_lastName.Text; set => tb_lastName.Text = value; }
         public string LoginUser { get => tb_login.Text; set => tb_login.Text = value; }
-        public string EmailClient { get => tb_mail.Text; set => tb_mail.Text = value; }
-        public string PhoneClient { get => tb_phone.Text; set => tb_phone.Text = value; }
+        public string EmailUser { get => tb_mail.Text; set => tb_mail.Text = value; }
+        public string PhoneUser { get => tb_phone.Text; set => tb_phone.Text = value; }
         
         public string DeliverymanIBAN { get => tb_IBAN.Text; set => tb_IBAN.Text = value; }
 

@@ -1,3 +1,4 @@
+using ConsoleAppEntityFramework;
 using LinkEatsApp.UC;
 
 namespace LinkEatsApp
@@ -13,8 +14,15 @@ namespace LinkEatsApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            //Application.Run(new MainForm());
-            Application.Run(new FormTest());
+
+            MainForm mainForm = new MainForm();
+
+            MainFormController mainFormController;
+
+            mainFormController= new MainFormController(mainForm, DatabaseMng.Instance);
+
+            Application.Run(mainForm);
+            //Application.Run(new FormTest());
         }
     }
 }
